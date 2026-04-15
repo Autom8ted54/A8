@@ -995,3 +995,165 @@ textarea {
 .footer-legal a {
     color: #94A3B8;
 }
+
+/* =====================
+   PROBLEM: POSITIONING LINE
+   ===================== */
+.positioning-line {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.85);
+    margin-top: var(--space-sm);
+    margin-bottom: var(--space-xs);
+    font-weight: 500;
+    border-left: 3px solid var(--amber);
+    padding-left: 0.75rem;
+}
+
+/* =====================
+   SECTION: HOW IT WORKS
+   ===================== */
+.section-how {
+    background-color: var(--white);
+}
+
+.steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+}
+
+.step {
+    display: flex;
+    gap: var(--space-md);
+    align-items: flex-start;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--amber);
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.step-content h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 0.2rem;
+    line-height: 1.4;
+}
+
+.step-content p {
+    font-size: 0.9rem;
+    color: var(--slate);
+}
+
+.step-note {
+    font-weight: 400;
+    color: var(--slate);
+    font-size: 0.85rem;
+}
+
+/* =====================
+   COMPARISON TABLE
+   ===================== */
+.comparison-table-wrapper {
+    margin-bottom: var(--space-lg);
+}
+
+.comparison-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: var(--space-sm);
+    text-align: center;
+}
+
+.comparison-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--radius);
+    border: 1px solid #E2E8F0;
+}
+
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    min-width: 400px;
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: 0.65rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.comparison-table thead th {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: #F8FAFC;
+    color: var(--slate);
+}
+
+.comparison-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.comparison-table tbody tr:hover td {
+    background: #FAFAFA;
+}
+
+.comparison-table tbody tr:hover .col-us {
+    background: #FFF3D0;
+}
+
+.comparison-table .col-competitor {
+    color: var(--slate);
+}
+
+.comparison-table thead .col-competitor {
+    color: var(--slate);
+}
+
+.comparison-table .col-us {
+    background: #FFF8E8;
+    color: var(--navy);
+    font-weight: 600;
+}
+
+.comparison-table thead .col-us {
+    background: var(--amber);
+    color: var(--navy);
+}
+
+/* =====================
+   SECTION: ABOUT (WIE ZIJN WIJ)
+   ===================== */
+.section-about {
+    background-color: #F1F4F8;
+    text-align: center;
+    padding: var(--space-lg) 0;
+}
+
+.about-text {
+    font-size: 0.95rem;
+    color: var(--slate);
+    line-height: 1.8;
+}
+
+.about-text a {
+    color: var(--amber-dark);
+    font-weight: 600;
+}
