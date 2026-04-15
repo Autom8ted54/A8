@@ -29,3 +29,8 @@ build/
 .vscode/
 *.swp
 *.swo
+
+# KBO data & output (privacy — contactdata)
+data/output/
+data/*.csv
+data/kbo/
