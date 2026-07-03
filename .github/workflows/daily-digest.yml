@@ -1,0 +1,32 @@
+name: Daily digest
+
+# 06:00 UTC = 07:00 lokaal (winter, CET) / 08:00 lokaal (zomer, CEST).
+# CLAUDE.md's DIGEST_SEND_TIME=07:00 wordt dus in de zomer iets later bereikt;
+# GitHub Actions cron kent geen tijdzones, dit is een bewuste keuze.
+on:
+  schedule:
+    - cron: "0 6 * * 1-5"
+  workflow_dispatch: {}
+
+jobs:
+  send-digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Run digest pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+          MAX_TENDERS_PER_DIGEST: ${{ secrets.MAX_TENDERS_PER_DIGEST }}
+          MIN_RELEVANCE_SCORE: ${{ secrets.MIN_RELEVANCE_SCORE }}
+        run: uv run python -m mailer.run
