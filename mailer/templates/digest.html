@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kansenradar — Digest {{ date_nl }}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#F0F2F5;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+
+  <!-- Wrapper -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#F0F2F5;padding:32px 16px;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+
+          <!-- Header -->
+          <tr>
+            <td style="background-color:#1B2B4B;border-radius:12px 12px 0 0;padding:28px 32px;">
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td>
+                    <span style="font-size:20px;font-weight:700;color:#F9F8F6;letter-spacing:-0.3px;">Kansenradar</span>
+                  </td>
+                  <td align="right">
+                    <span style="font-size:13px;color:#94A3B8;">{{ date_nl }}</span>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin:12px 0 0;font-size:13px;color:#64748B;">Goedemorgen — {{ tenders|length }} opdracht{{ 'en' if tenders|length != 1 else '' }} die vandaag jouw aandacht verdien{{ 't' if tenders|length == 1 else 'en' }}.</p>
+            </td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="background-color:#ffffff;padding:0 32px 8px;">
+
+              {% for t in tenders %}
+              <!-- Tender {{ loop.index }} -->
+              <table width="100%" cellpadding="0" cellspacing="0" style="{{ '' if loop.last else 'border-bottom:1px solid #E2E8F0;' }}padding:28px 0;">
+                <tr>
+                  <td>
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td>
+                          <span style="display:inline-block;background-color:{{ t.category_bg }};color:{{ t.category_fg }};font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:0.5px;">{{ t.category }}</span>
+                        </td>
+                        <td align="right">
+                          <span style="font-size:13px;font-weight:700;color:#1B2B4B;">Score: {{ t.score }}/10</span>
+                        </td>
+                      </tr>
+                    </table>
+                    <h2 style="margin:10px 0 4px;font-size:16px;font-weight:600;color:#1B2B4B;line-height:1.4;">{{ t.title }}</h2>
+                    <p style="margin:0 0 12px;font-size:13px;color:#64748B;">{{ t.authority }}</p>
+                    <p style="margin:0 0 16px;font-size:14px;color:#374151;line-height:1.6;">{{ t.summary }}</p>
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="font-size:13px;color:#64748B;">
+                          {% if t.budget_text %}<span style="margin-right:20px;">Budget: <strong style="color:#1B2B4B;">{{ t.budget_text }}</strong></span>{% endif %}
+                          {% if t.deadline_str %}<span>Deadline: <strong style="color:{{ t.deadline_color }};">{{ t.deadline_str }}</strong></span>{% endif %}
+                        </td>
+                        <td align="right">
+                          <a href="{{ t.url }}" style="font-size:13px;font-weight:600;color:#F5A623;text-decoration:none;">Bekijk bestek →</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              {% endfor %}
+
+            </td>
+          </tr>
+
+          <!-- CTA Banner -->
+          <tr>
+            <td style="background-color:#F5A623;padding:24px 32px;">
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td>
+                    <p style="margin:0;font-size:14px;font-weight:600;color:#1B2B4B;">Mis je nog opdrachten?</p>
+                    <p style="margin:4px 0 0;font-size:13px;color:#7C4A00;">Stuur deze digest door naar een collega of laat hen zelf inschrijven.</p>
+                  </td>
+                  <td align="right" style="white-space:nowrap;padding-left:16px;">
+                    <a href="#" style="display:inline-block;background-color:#1B2B4B;color:#F9F8F6;font-size:13px;font-weight:600;padding:10px 20px;border-radius:6px;text-decoration:none;">Doorsturen</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color:#1B2B4B;border-radius:0 0 12px 12px;padding:24px 32px;">
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td>
+                    <p style="margin:0;font-size:12px;color:#64748B;">
+                      Je ontvangt deze digest als founding member van Kansenradar.<br>
+                      Bronnen: e-Procurement BE &amp; TED EU · Gefilterd op CPV-codes marketing &amp; communicatie
+                    </p>
+                  </td>
+                  <td align="right" style="white-space:nowrap;padding-left:16px;">
+                    <a href="{{ unsubscribe_url }}" style="font-size:12px;color:#64748B;text-decoration:none;">Uitschrijven</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
