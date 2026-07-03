@@ -34,3 +34,6 @@ build/
 data/output/
 data/*.csv
 data/kbo/
+
+# Digest dry-run previews
+out/
