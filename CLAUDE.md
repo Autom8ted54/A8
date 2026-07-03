@@ -11,16 +11,22 @@ Mentale referentie voor de eindgebruiker: **Buienradar** — vertrouwd, function
 - Tone of voice: direct Vlaams Nederlands (je/jij, nooit u), zelfzeker maar niet arrogant, altijd concreet
 
 ## Tech Stack
-| Laag | Technologie |
-|------|-------------|
-| Scrapers | Python 3.11+ |
-| Databronnen | e-Procurement BE (e-notification.be), TED (ted.europa.eu) |
-| AI verwerking | Claude API — claude-sonnet-4-6 |
-| Database | Supabase (PostgreSQL) |
-| E-mail bezorging | Resend |
-| Landingspagina | Statische HTML/CSS/JS op Cloudflare Pages |
-| Orchestratie | n8n |
-| DNS / CDN | Cloudflare |
+| Laag | Technologie | Kost |
+|------|-------------|------|
+| Scrapers | Python 3.11+ | gratis |
+| Databronnen | e-Procurement BE (e-notification.be), TED (ted.europa.eu) | gratis |
+| AI verwerking | Claude API — Haiku (pre-screening) + Sonnet (samenvatting) | < €5/mnd |
+| Database | Supabase PostgreSQL (free tier) | gratis |
+| E-mail bezorging | Resend (free tier, <100/dag) | gratis |
+| Landingspagina | Statische HTML/CSS/JS op Cloudflare Pages | gratis |
+| Orchestratie | GitHub Actions (dagelijkse cron) | gratis |
+| Betaling | Mollie (geen maandkost, enkel transactie %) | variabel |
+| DNS / CDN | Cloudflare | gratis |
+
+### AI verwerkingsstrategie
+1. **CPV-filter** — Python logica (geen AI, gratis)
+2. **Haiku** — pre-screening: relevant ja/nee per tender
+3. **Sonnet** — alleen voor tenders die filter halen: samenvatting + eindscore
 
 ## Projectstructuur
 ```
@@ -37,10 +43,12 @@ kansenradar/
 ├── supabase/
 │   └── migrations/
 │       └── 001_create_waitlist.sql
+├── .github/
+│   └── workflows/
+│       └── daily-digest.yml     ← GitHub Actions cron (weekdagen 06:00 UTC)
 ├── scraper/                     ← (fase 2) Python data ingestion
 │   ├── e_notification.py
-│   ├── ted_europa.py
-│   └── scheduler.py
+│   └── ted_europa.py
 ├── processor/                   ← (fase 2) AI verwerking
 │   ├── summarizer.py
 │   ├── scorer.py
