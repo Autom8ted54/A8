@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import logging
 import os
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -29,6 +30,15 @@ logger = logging.getLogger(__name__)
 
 OUT_DIR = Path(__file__).parent.parent / "out"
 
+# Resend free tier laat 2 requests/seconde toe
+SEND_INTERVAL_SECONDS = 0.6
+
+
+def _env_int(name: str, default: int) -> int:
+    """Als een GitHub secret niet bestaat, komt de env var als lege string binnen."""
+    value = os.environ.get(name, "").strip()
+    return int(value) if value else default
+
 
 def scrape_and_store() -> None:
     db = get_client()
@@ -37,20 +47,24 @@ def scrape_and_store() -> None:
         logger.info("Geen nieuwe TED-tenders opgehaald")
         return
     rows = [t.to_row() for t in raw_tenders]
-    db.table("tenders").upsert(rows, on_conflict="source_ref").execute()
-    logger.info("Scraper: %d tenders opgeslagen/bijgewerkt (dedup op source_ref)", len(rows))
+    # ignore_duplicates: bestaande rijen niet overschrijven — de lookback van 3
+    # dagen zou anders AI-velden (budget_text) en verwerkingsstatus wissen.
+    db.table("tenders").upsert(rows, on_conflict="source_ref", ignore_duplicates=True).execute()
+    logger.info("Scraper: %d tenders opgeslagen (dedup op source_ref)", len(rows))
 
 
 def select_digest_candidates() -> list[Tender]:
     db = get_client()
-    min_score = int(os.environ.get("MIN_RELEVANCE_SCORE", 6))
-    max_count = int(os.environ.get("MAX_TENDERS_PER_DIGEST", 5))
+    min_score = _env_int("MIN_RELEVANCE_SCORE", 6)
+    max_count = _env_int("MAX_TENDERS_PER_DIGEST", 5)
+    today_iso = datetime.now(timezone.utc).date().isoformat()
 
     result = (
         db.table("tenders")
         .select("*")
         .gte("score", min_score)
         .is_("sent_in_digest_at", "null")
+        .or_(f"deadline.is.null,deadline.gte.{today_iso}")
         .order("score", desc=True)
         .limit(max_count)
         .execute()
@@ -67,8 +81,7 @@ def get_active_subscribers() -> list[Subscriber]:
 def mark_sent(tender_ids: list[str]) -> None:
     db = get_client()
     now = datetime.now(timezone.utc).isoformat()
-    for tid in tender_ids:
-        db.table("tenders").update({"sent_in_digest_at": now}).eq("id", tid).execute()
+    db.table("tenders").update({"sent_in_digest_at": now}).in_("id", tender_ids).execute()
 
 
 def run(dry_run: bool) -> None:
@@ -99,11 +112,20 @@ def run(dry_run: bool) -> None:
 
     subject = f"Kansenradar — Digest {format_date_nl(today)}"
     sent_count = 0
-    for sub in subscribers:
+    for i, sub in enumerate(subscribers):
+        if i > 0:
+            time.sleep(SEND_INTERVAL_SECONDS)
         unsubscribe_url = f"https://kansenradar.be/unsubscribe?token={sub.unsubscribe_token}"
         html = build(tenders, today, unsubscribe_url=unsubscribe_url)
-        if send(to=sub.email, subject=subject, html=html):
+        if send(to=sub.email, subject=subject, html=html, unsubscribe_url=unsubscribe_url):
             sent_count += 1
+
+    if sent_count == 0:
+        logger.error(
+            "Geen enkele verzending gelukt (%d subscribers) — tenders blijven ongemarkeerd voor morgen",
+            len(subscribers),
+        )
+        return
 
     mark_sent([t.id for t in tenders])
     logger.info("Digest verzonden naar %d/%d subscribers, %d tenders gemarkeerd als verstuurd", sent_count, len(subscribers), len(tenders))

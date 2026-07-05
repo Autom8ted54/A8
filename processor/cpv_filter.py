@@ -40,11 +40,15 @@ def run() -> int:
     result = client.table("tenders").select("id, cpv_codes").is_("passed_cpv", "null").execute()
     rows = result.data or []
 
-    for row in rows:
-        passed = matches(row.get("cpv_codes") or [])
-        client.table("tenders").update({"passed_cpv": passed}).eq("id", row["id"]).execute()
+    passed_ids = [row["id"] for row in rows if matches(row.get("cpv_codes") or [])]
+    failed_ids = [row["id"] for row in rows if row["id"] not in set(passed_ids)]
 
-    logger.info("CPV-filter: %d tenders beoordeeld", len(rows))
+    if passed_ids:
+        client.table("tenders").update({"passed_cpv": True}).in_("id", passed_ids).execute()
+    if failed_ids:
+        client.table("tenders").update({"passed_cpv": False}).in_("id", failed_ids).execute()
+
+    logger.info("CPV-filter: %d tenders beoordeeld (%d relevant)", len(rows), len(passed_ids))
     return len(rows)
 
 

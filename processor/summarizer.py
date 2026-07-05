@@ -71,7 +71,7 @@ def _build_prompt(title: str, authority: str | None, description: str) -> str:
 def summarize(client: Anthropic, title: str, authority: str | None, description: str) -> dict:
     response = client.messages.create(
         model=MODEL,
-        max_tokens=500,
+        max_tokens=1000,
         tools=[SUMMARIZE_TOOL],
         tool_choice={"type": "tool", "name": "tender_samenvatting"},
         messages=[{"role": "user", "content": _build_prompt(title, authority, description)}],
@@ -82,7 +82,7 @@ def summarize(client: Anthropic, title: str, authority: str | None, description:
     raise RuntimeError("Sonnet gaf geen tool_use-antwoord terug")
 
 
-def _extract_description(raw: dict) -> str:
+def extract_description(raw: dict) -> str:
     """Pak een leesbare omschrijving uit de ruwe TED-payload (meertalig veld)."""
     for field_name in ("description-proc", "description-lot"):
         value = raw.get(field_name)
@@ -114,9 +114,16 @@ def run() -> int:
     )
     rows = result.data or []
 
+    done = 0
     for row in rows:
-        description = _extract_description(row.get("raw") or {})
-        data = summarize(ai, row["title"], row.get("authority"), description)
+        try:
+            description = extract_description(row.get("raw") or {})
+            data = summarize(ai, row["title"], row.get("authority"), description)
+        except Exception:
+            # Eén mislukte tender mag de rest van de batch niet blokkeren;
+            # processed_at blijft NULL, dus morgen opnieuw geprobeerd.
+            logger.exception("Samenvatting mislukt voor %s — wordt morgen opnieuw geprobeerd", row["id"])
+            continue
         db.table("tenders").update(
             {
                 "category": data["category"],
@@ -126,10 +133,11 @@ def run() -> int:
                 "processed_at": datetime.now(timezone.utc).isoformat(),
             }
         ).eq("id", row["id"]).execute()
+        done += 1
         logger.info("%s -> score=%s category=%s | %s", row["id"], data["score"], data["category"], row["title"][:80])
 
-    logger.info("Samenvatting: %d tenders verwerkt", len(rows))
-    return len(rows)
+    logger.info("Samenvatting: %d/%d tenders verwerkt", done, len(rows))
+    return done
 
 
 if __name__ == "__main__":

@@ -38,6 +38,20 @@ class RawTender:
         }
 
 
+def _parse_date(value: Any) -> date | None:
+    """Supabase geeft DATE-kolommen terug als ISO-string ('2026-07-10')."""
+    if value is None or isinstance(value, date):
+        return value
+    return date.fromisoformat(value)
+
+
+def _parse_datetime(value: Any) -> datetime | None:
+    """Supabase geeft TIMESTAMPTZ-kolommen terug als ISO-string."""
+    if value is None or isinstance(value, datetime):
+        return value
+    return datetime.fromisoformat(value)
+
+
 @dataclass
 class Tender:
     """Volledige tender-rij zoals opgeslagen in Supabase, incl. verwerkingsstatus."""
@@ -70,7 +84,7 @@ class Tender:
             authority=row.get("authority"),
             cpv_codes=row.get("cpv_codes") or [],
             budget_text=row.get("budget_text"),
-            deadline=row.get("deadline"),
+            deadline=_parse_date(row.get("deadline")),
             url=row.get("url"),
             country=row.get("country"),
             passed_cpv=row.get("passed_cpv"),
@@ -78,8 +92,8 @@ class Tender:
             category=row.get("category"),
             summary=row.get("summary"),
             score=row.get("score"),
-            processed_at=row.get("processed_at"),
-            sent_in_digest_at=row.get("sent_in_digest_at"),
+            processed_at=_parse_datetime(row.get("processed_at")),
+            sent_in_digest_at=_parse_datetime(row.get("sent_in_digest_at")),
         )
 
 
