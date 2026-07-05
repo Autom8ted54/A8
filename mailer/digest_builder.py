@@ -59,7 +59,7 @@ def _tender_context(t: Tender, today: date) -> dict:
         "budget_text": t.budget_text,
         "deadline_str": format_date_nl(t.deadline) if t.deadline else None,
         "deadline_color": _deadline_color(t.deadline, today),
-        "url": t.url or "#",
+        "url": t.url,  # None → template toont geen bestek-link i.p.v. dode '#'
     }
 
 

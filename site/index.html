@@ -103,7 +103,7 @@
                     <div class="digest-header">
                         <div class="digest-meta">
                             <span class="digest-from">Van: digest@kansenradar.be</span>
-                            <span class="digest-subject">📡 Jouw Kansenradar — dinsdag 14 april</span>
+                            <span class="digest-subject">Jouw Kansenradar — dinsdag 14 april</span>
                         </div>
                     </div>
                     <div class="digest-body">
@@ -116,9 +116,9 @@
                             </div>
                             <h3 class="tender-title">Communicatiecampagne rond mobiliteit — Stad Antwerpen</h3>
                             <div class="tender-details">
-                                <span>💶 Budget: €45.000 – €80.000</span>
-                                <span>⏰ Deadline: 12 mei 2026</span>
-                                <span>📍 Antwerpen</span>
+                                <span><strong>Budget</strong> €45.000 – €80.000</span>
+                                <span><strong>Deadline</strong> 12 mei 2026</span>
+                                <span><strong>Regio</strong> Antwerpen</span>
                             </div>
                             <p class="tender-summary">Stad Antwerpen zoekt een communicatiebureau voor een meerjarige bewustmakingscampagne rond duurzame mobiliteit. Het traject omvat strategische opmaak, creatie en distributie via online en offline kanalen, met focus op jongeren en pendelaars.</p>
                             <a href="#" class="tender-link" onclick="return false;">Volledig dossier bekijken →</a>
@@ -131,9 +131,9 @@
                             </div>
                             <h3 class="tender-title">Marketing en promotie toeristische sector — Provincie Oost-Vlaanderen</h3>
                             <div class="tender-details">
-                                <span>💶 Budget: €25.000 – €60.000</span>
-                                <span>⏰ Deadline: 28 april 2026</span>
-                                <span>📍 Gent</span>
+                                <span><strong>Budget</strong> €25.000 – €60.000</span>
+                                <span><strong>Deadline</strong> 28 april 2026</span>
+                                <span><strong>Regio</strong> Gent</span>
                             </div>
                             <p class="tender-summary">Provinciebestuur Oost-Vlaanderen zoekt een marketingpartner voor de promotie van toeristische troeven. Opdracht omvat contentstrategie, social media beheer en campagneplanning voor 12 maanden.</p>
                             <a href="#" class="tender-link" onclick="return false;">Volledig dossier bekijken →</a>
@@ -146,9 +146,9 @@
                             </div>
                             <h3 class="tender-title">Organisatie en communicatie jaarlijkse infodagen — VDAB</h3>
                             <div class="tender-details">
-                                <span>💶 Budget: op aanvraag</span>
-                                <span>⏰ Deadline: 5 mei 2026</span>
-                                <span>📍 Heel Vlaanderen</span>
+                                <span><strong>Budget</strong> op aanvraag</span>
+                                <span><strong>Deadline</strong> 5 mei 2026</span>
+                                <span><strong>Regio</strong> Heel Vlaanderen</span>
                             </div>
                             <p class="tender-summary">VDAB zoekt een partner voor de communicatie rond en logistieke organisatie van hun jaarlijkse infodagen in alle Vlaamse provincies. Inclusief digitale communicatiemiddelen.</p>
                             <a href="#" class="tender-link" onclick="return false;">Volledig dossier bekijken →</a>
@@ -196,7 +196,11 @@
         <section class="section-scarcity">
             <div class="container">
                 <div class="scarcity-banner">
-                    <div class="scarcity-icon" aria-hidden="true">⚡</div>
+                    <div class="scarcity-icon" aria-hidden="true">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/>
+                        </svg>
+                    </div>
                     <div>
                         <h2>We zijn bijna klaar om te lanceren.</h2>
                         <p>Wees erbij van dag één.</p>
@@ -312,8 +316,8 @@
 
                         <div class="form-group">
                             <label for="email">E-mailadres <span class="required">*</span></label>
-                            <input type="email" id="email" name="email" placeholder="jij@jouwbureau.be" required autocomplete="email">
-                            <span class="field-error" id="email-error"></span>
+                            <input type="email" id="email" name="email" placeholder="jij@jouwbureau.be" required autocomplete="email" aria-describedby="email-error">
+                            <span class="field-error" role="status" aria-live="polite" id="email-error"></span>
                         </div>
 
                         <div class="form-divider">
@@ -333,7 +337,7 @@
                                     <input type="radio" name="schrijft_al_in" value="nee"> Nee, nog niet
                                 </label>
                             </div>
-                            <span class="field-error" id="schrijft-error"></span>
+                            <span class="field-error" role="status" aria-live="polite" id="schrijft-error"></span>
                         </div>
 
                         <div class="form-group">
@@ -352,7 +356,7 @@
                                     <input type="radio" name="uren_per_week" value="5+"> Meer dan 5 uur per week
                                 </label>
                             </div>
-                            <span class="field-error" id="uren-error"></span>
+                            <span class="field-error" role="status" aria-live="polite" id="uren-error"></span>
                         </div>
 
                         <div class="form-group">
@@ -368,7 +372,7 @@
                                     <input type="radio" name="gebruikt_tool" value="nee"> Nee, geen tool
                                 </label>
                             </div>
-                            <span class="field-error" id="tool-error"></span>
+                            <span class="field-error" role="status" aria-live="polite" id="tool-error"></span>
                         </div>
 
                         <div class="form-group">
@@ -392,7 +396,7 @@
                                     <input type="radio" name="aantal_medewerkers" value="30+"> 30+
                                 </label>
                             </div>
-                            <span class="field-error" id="medewerkers-error"></span>
+                            <span class="field-error" role="status" aria-live="polite" id="medewerkers-error"></span>
                         </div>
 
                         <div class="form-submit">
