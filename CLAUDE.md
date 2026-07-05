@@ -46,16 +46,19 @@ kansenradar/
 ├── .github/
 │   └── workflows/
 │       └── daily-digest.yml     ← GitHub Actions cron (weekdagen 06:00 UTC)
-├── scraper/                     ← (fase 2) Python data ingestion
-│   ├── e_notification.py
-│   └── ted_europa.py
-├── processor/                   ← (fase 2) AI verwerking
-│   ├── summarizer.py
-│   ├── scorer.py
-│   └── cpv_filter.py
-├── database/                    ← (fase 2) Supabase client + helpers
-│   └── client.py
-└── mailer/                      ← (fase 2) e-mail digest pipeline
+├── scraper/                     ← Python data ingestion
+│   ├── base.py                  ← Source-interface
+│   └── ted_europa.py            ← TED API v3 (e_notification.py volgt in fase 2b)
+├── processor/                   ← AI verwerking
+│   ├── cpv_filter.py            ← prefix-match, geen AI
+│   ├── prescreen.py             ← Haiku ja/nee
+│   └── summarizer.py            ← Sonnet samenvatting + score
+├── database/                    ← Supabase client + models
+│   ├── client.py
+│   └── models.py
+├── tests/                       ← pytest (uv run pytest)
+└── mailer/                      ← e-mail digest pipeline
+    ├── run.py                   ← orchestratie volledige pipeline (--dry-run)
     ├── digest_builder.py
     ├── sender.py
     └── templates/
@@ -88,7 +91,7 @@ MIN_RELEVANCE_SCORE=6
 - **TED:** Tenders Electronic Daily — EU-breed publicatieplatform voor overheidsopdrachten
 - **Overheidsopdracht:** Government tender / public procurement
 - **Bestek:** Aanbestedingsdocument met technische specificaties
-- **Founding member:** Eerste 50 klanten aan gereduceerd tarief (€39/mnd)
+- **Founding member:** Eerste 50 klanten aan gereduceerd tarief (€49/mnd, blijft gelden zolang klant)
 - **NUTS-regio BE:** Geografische filtercode voor België/Vlaanderen
 
 ## Conventies
@@ -102,9 +105,9 @@ MIN_RELEVANCE_SCORE=6
 ## Pricing
 | Plan | Prijs | Doelgroep |
 |------|-------|-----------|
-| Founding Member | €39/mnd | Eerste 50 klanten |
-| Starter | €49/mnd | Standaard na launch |
-| Pro | €89/mnd | Meerdere gebruikers + filters |
+| Founding Member | €49/mnd | Eerste 50 klanten (site toont €69 doorstreept) |
+| Starter | €69/mnd | Standaard na launch |
+| Pro | (later) | Meerdere gebruikers + filters |
 
 ## Fase 1 Mijlpalen
 - Week 1–6: Validatie via outreach + wachtlijst (landingspagina)
