@@ -1,7 +1,7 @@
 // Kansenradar — Wachtlijst formulier afhandeling
+// Post naar de eigen Cloudflare Pages Function (site/functions/api/waitlist.js)
 
-// Formspree form ID — vervang door jouw ID van formspree.io
-const FORMSPREE_ID = 'JOUW_FORM_ID';
+const WAITLIST_ENDPOINT = '/api/waitlist';
 
 (function () {
     'use strict';
@@ -93,8 +93,9 @@ const FORMSPREE_ID = 'JOUW_FORM_ID';
             schrijft_al_in: getRadioValue('schrijft_al_in'),
             uren_per_week: getRadioValue('uren_per_week'),
             gebruikt_tool: getRadioValue('gebruikt_tool'),
-            grootste_frustratie: (document.getElementById('frustratie')?.value || '').trim(),
+            grootste_frustratie: (document.getElementById('frustratie')?.value || '').trim().slice(0, 1000),
             aantal_medewerkers: getRadioValue('aantal_medewerkers'),
+            website: (document.getElementById('website')?.value || ''), // honeypot
         };
 
         if (!validateForm(data)) {
@@ -109,10 +110,10 @@ const FORMSPREE_ID = 'JOUW_FORM_ID';
         setLoading(true);
 
         try {
-            const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+            const response = await fetch(WAITLIST_ENDPOINT, {
                 method: 'POST',
-                headers: { 'Accept': 'application/json' },
-                body: new URLSearchParams(data),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
             });
 
             if (response.ok) {
@@ -121,17 +122,25 @@ const FORMSPREE_ID = 'JOUW_FORM_ID';
                 successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else {
                 const result = await response.json().catch(() => ({}));
-                if (result.errors) {
-                    showError('email', result.errors.map(e => e.message).join('. '));
-                } else {
-                    showError('email', 'Er is iets misgegaan. Probeer het opnieuw of mail naar hello@autom8ted.be.');
-                }
+                showError('email', result.error || 'Er is iets misgegaan. Probeer het opnieuw of mail naar hello@autom8ted.be.');
                 setLoading(false);
             }
         } catch (err) {
             showError('email', 'Verbindingsfout. Controleer je internet en probeer opnieuw.');
             setLoading(false);
         }
+    });
+
+    // ---- Radio-fouten wissen zodra de gebruiker alsnog kiest ----
+    const RADIO_ERROR_IDS = {
+        schrijft_al_in: 'schrijft',
+        uren_per_week: 'uren',
+        gebruikt_tool: 'tool',
+        aantal_medewerkers: 'medewerkers',
+    };
+    form.addEventListener('change', function (e) {
+        const errorId = RADIO_ERROR_IDS[e.target.name];
+        if (errorId) clearError(errorId);
     });
 
     // ---- Live email validatie op blur ----

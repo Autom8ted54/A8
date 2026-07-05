@@ -701,6 +701,15 @@ section {
     gap: 0.4rem;
 }
 
+/* Honeypot — visueel en voor screenreaders verborgen, wel in de DOM voor bots */
+.hp-field {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
 .form-group label:first-child {
     font-weight: 600;
     font-size: 0.95rem;

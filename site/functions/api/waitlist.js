@@ -46,13 +46,22 @@ export async function onRequestPost(context) {
         gebruikt_tool,
         grootste_frustratie = '',
         aantal_medewerkers,
+        website = '',
     } = body;
+
+    // Honeypot: bots vullen het verborgen veld in — doe alsof het lukte
+    if (website) {
+        return jsonResponse({ success: true });
+    }
 
     // Server-side validatie
     const errors = [];
 
-    if (!email || !isValidEmail(email.trim())) {
+    if (typeof email !== 'string' || !isValidEmail(email.trim())) {
         errors.push('Ongeldig e-mailadres.');
+    }
+    if (typeof grootste_frustratie !== 'string') {
+        errors.push('Ongeldige waarde voor grootste_frustratie.');
     }
     if (!ALLOWED_SCHRIJFT_AL_IN.includes(schrijft_al_in)) {
         errors.push('Ongeldige waarde voor schrijft_al_in.');
