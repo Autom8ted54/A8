@@ -31,3 +31,23 @@ jobs:
           MAX_TENDERS_PER_DIGEST: ${{ secrets.MAX_TENDERS_PER_DIGEST }}
           MIN_RELEVANCE_SCORE: ${{ secrets.MIN_RELEVANCE_SCORE }}
         run: uv run python -m mailer.run
+
+      - name: Alert on failure
+        if: failure()
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+        run: |
+          if [ -z "$RESEND_API_KEY" ]; then
+            echo "RESEND_API_KEY not set — skipping failure alert"
+            exit 0
+          fi
+          curl -sS -X POST https://api.resend.com/emails \
+            -H "Authorization: Bearer $RESEND_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"from\": \"$FROM_EMAIL\",
+              \"to\": [\"filip@kansenradar.be\"],
+              \"subject\": \"Kansenradar digest-pipeline FAILED\",
+              \"html\": \"<p>De dagelijkse digest-run is mislukt.</p><p><a href=\\\"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\\\">Bekijk de logs</a></p>\"
+            }"
