@@ -28,7 +28,8 @@ DEFAULT_CATEGORY_COLOR = ("#E2E8F0", "#334155")
 
 URGENT_DAYS = 14
 SOON_DAYS = 30
-DEADLINE_COLORS = {"urgent": "#EF4444", "soon": "#F5A623", "later": "#22C55E"}
+# Donkere tinten: leesbaar contrast op wit bij 13px (AA)
+DEADLINE_COLORS = {"urgent": "#DC2626", "soon": "#B45309", "later": "#15803D"}
 
 
 def format_date_nl(d: date) -> str:

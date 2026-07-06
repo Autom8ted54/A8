@@ -37,10 +37,10 @@ def test_format_date_nl():
 
 
 def test_deadline_color_urgent_soon_later():
-    assert _deadline_color(date(2026, 7, 10), TODAY) == "#EF4444"  # < 14 dagen
-    assert _deadline_color(date(2026, 7, 25), TODAY) == "#F5A623"  # < 30 dagen
-    assert _deadline_color(date(2026, 9, 1), TODAY) == "#22C55E"
-    assert _deadline_color(None, TODAY) == "#22C55E"
+    assert _deadline_color(date(2026, 7, 10), TODAY) == "#DC2626"  # < 14 dagen
+    assert _deadline_color(date(2026, 7, 25), TODAY) == "#B45309"  # < 30 dagen
+    assert _deadline_color(date(2026, 9, 1), TODAY) == "#15803D"
+    assert _deadline_color(None, TODAY) == "#15803D"
 
 
 def test_build_renders_tender_with_deadline():
