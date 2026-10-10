@@ -18,10 +18,10 @@ Mentale referentie voor de eindgebruiker: **Buienradar** — vertrouwd, function
 | AI verwerking | Claude API — Haiku (pre-screening) + Sonnet (samenvatting) | < €5/mnd |
 | Database | Supabase PostgreSQL (free tier) | gratis |
 | E-mail bezorging | Resend (free tier, <100/dag) | gratis |
-| Landingspagina | Statische HTML/CSS/JS op Cloudflare Pages | gratis |
+| Landingspagina | Statische HTML/CSS/JS + PHP-endpoint op mijn.host (deploy.sh via FTP) | hosting |
 | Orchestratie | GitHub Actions (dagelijkse cron) | gratis |
 | Betaling | Mollie (geen maandkost, enkel transactie %) | variabel |
-| DNS / CDN | Cloudflare | gratis |
+| DNS | mijn.host (kansenradar.be site/mail, kansenradar.eu outreach) | hosting |
 
 ### AI verwerkingsstrategie
 1. **CPV-filter** — Python logica (geen AI, gratis)
@@ -33,16 +33,19 @@ Mentale referentie voor de eindgebruiker: **Buienradar** — vertrouwd, function
 kansenradar/
 ├── CLAUDE.md                    ← dit bestand
 ├── .gitignore
-├── site/                        ← Cloudflare Pages (publish directory)
+├── deploy.sh                    ← upload site/ naar mijn.host (leest .env, genereert api/config.php)
+├── site/                        ← webroot op mijn.host
 │   ├── index.html               ← wachtlijstpagina
 │   ├── css/style.css
 │   ├── js/main.js
 │   ├── assets/                  ← favicon, OG image
-│   └── functions/api/
-│       └── waitlist.js          ← Cloudflare Pages Function → Supabase
+│   └── api/
+│       ├── waitlist.php         ← inschrijving → Supabase + Resend-bedankmail
+│       └── sample-digest.html   ← gegenereerd door `uv run python -m mailer.build_sample`
 ├── supabase/
 │   └── migrations/
-│       └── 001_create_waitlist.sql
+│       └── 001…004_*.sql        ← handmatig via Supabase SQL-editor
+├── outreach/                    ← prospectlijst (state/ = gitignored) + templates.md
 ├── .github/
 │   └── workflows/
 │       └── daily-digest.yml     ← GitHub Actions cron (weekdagen 06:00 UTC)
@@ -100,7 +103,13 @@ MIN_RELEVANCE_SCORE=6
 - Alle secrets via environment variables, **nooit** in code of git
 - Kopij (user-facing): altijd Nederlands (Vlaams)
 - Code, commentaar, commit messages: Engels
-- Cloudflare Pages Functions: `export async function onRequestPost(context)` patroon, env via `context.env`
+
+## Outreach & validatie
+- Outreachmails openen met "Beste,"; vertrekken vanaf kansenradar.eu (eigen SMTP-script), nooit vanaf kansenradar.be en niet via Brevo (verbiedt koude lijsten)
+- LinkedIn: enkel de bedrijfspagina, nooit Filips persoonlijke profiel
+- Prijs- of frequentiewijziging ook doorvoeren in `outreach/templates.md` (A3 + standaardantwoorden) en `mailer/build_sample.py`
+- Beslistabel validatie: nooit automatisch stoppen of bijsturen — altijd eerst samen met Filip beslissen
+- Testinschrijvingen hebben source=test; uitsluiten uit cijfers
 
 ## Pricing
 | Plan | Prijs | Doelgroep |
@@ -117,6 +126,6 @@ MIN_RELEVANCE_SCORE=6
 
 ## Succesindicatoren Fase 1
 - 30–50 founding members
-- MRR €1.170–€1.950
+- MRR €870–€1.450
 - Open rate digest >50%
 - Gemiddelde relevantiescore >7/10

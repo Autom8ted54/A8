@@ -25,7 +25,7 @@ LFTP_OPEN="set ftp:ssl-allow no; set net:max-retries 3; set net:timeout 15; open
 
 # Scoped mijn.host-accounts landen soms in de domeinmap (met public_html/), soms rechtstreeks in de webroot
 ROOT_LISTING=$(lftp -c "$LFTP_OPEN; cls -1 /")
-if grep -qx "public_html/\?" <<<"$ROOT_LISTING"; then REMOTE_PATH=/public_html; else REMOTE_PATH=/; fi
+if grep -qxE "/?public_html/?" <<<"$ROOT_LISTING"; then REMOTE_PATH=/public_html; else REMOTE_PATH=/; fi
 
 if [[ "${1:-}" == "--check" ]]; then
   echo "✓ Verbonden met $FTP_HOST. Remote root:"
