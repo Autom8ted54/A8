@@ -37,3 +37,8 @@ data/kbo/
 
 # Digest dry-run previews
 out/
+
+# Secrets voor mijn.host (aangemaakt door deploy.sh)
+site/api/config.php
+# Outreach-status (bevat prospectdata)
+outreach/state/

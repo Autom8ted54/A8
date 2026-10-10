@@ -1,7 +1,7 @@
 // Kansenradar — Wachtlijst formulier afhandeling
-// Post naar de eigen Cloudflare Pages Function (site/functions/api/waitlist.js)
+// Post naar site/api/waitlist.php (mijn.host, PHP). Relatief pad zodat de site ook in een submap werkt.
 
-const WAITLIST_ENDPOINT = '/api/waitlist';
+const WAITLIST_ENDPOINT = 'api/waitlist.php';
 
 (function () {
     'use strict';
@@ -13,6 +13,13 @@ const WAITLIST_ENDPOINT = '/api/waitlist';
     const btnLoading = submitBtn?.querySelector('.btn-loading');
 
     if (!form) return;
+
+    // ---- Bron meten: ?bron=mail1 in de link komt mee met de inschrijving ----
+    const bronInput = document.getElementById('bron');
+    const bronParam = new URLSearchParams(window.location.search).get('bron');
+    if (bronInput && bronParam) {
+        bronInput.value = bronParam.toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 40);
+    }
 
     // ---- Validatie helpers ----
 
@@ -31,7 +38,7 @@ const WAITLIST_ENDPOINT = '/api/waitlist';
     }
 
     function clearAllErrors() {
-        ['email', 'schrijft', 'uren', 'tool', 'medewerkers'].forEach(clearError);
+        ['email', 'schrijft', 'uren', 'tool', 'medewerkers', 'interesse'].forEach(clearError);
     }
 
     function getRadioValue(name) {
@@ -72,6 +79,11 @@ const WAITLIST_ENDPOINT = '/api/waitlist';
             valid = false;
         }
 
+        if (!data.interesse) {
+            showError('interesse', 'Maak een keuze.');
+            valid = false;
+        }
+
         return valid;
     }
 
@@ -95,6 +107,8 @@ const WAITLIST_ENDPOINT = '/api/waitlist';
             gebruikt_tool: getRadioValue('gebruikt_tool'),
             grootste_frustratie: (document.getElementById('frustratie')?.value || '').trim().slice(0, 1000),
             aantal_medewerkers: getRadioValue('aantal_medewerkers'),
+            interesse: getRadioValue('interesse'),
+            bron: (document.getElementById('bron')?.value || ''),
             website: (document.getElementById('website')?.value || ''), // honeypot
         };
 
@@ -122,7 +136,7 @@ const WAITLIST_ENDPOINT = '/api/waitlist';
                 successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else {
                 const result = await response.json().catch(() => ({}));
-                showError('email', result.error || 'Er is iets misgegaan. Probeer het opnieuw of mail naar hello@autom8ted.be.');
+                showError('email', result.error || 'Er is iets misgegaan. Probeer het opnieuw of mail naar hallo@kansenradar.be.');
                 setLoading(false);
             }
         } catch (err) {
@@ -137,6 +151,7 @@ const WAITLIST_ENDPOINT = '/api/waitlist';
         uren_per_week: 'uren',
         gebruikt_tool: 'tool',
         aantal_medewerkers: 'medewerkers',
+        interesse: 'interesse',
     };
     form.addEventListener('change', function (e) {
         const errorId = RADIO_ERROR_IDS[e.target.name];

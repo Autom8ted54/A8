@@ -103,7 +103,7 @@
                     <div class="digest-header">
                         <div class="digest-meta">
                             <span class="digest-from">Van: digest@kansenradar.be</span>
-                            <span class="digest-subject">Jouw Kansenradar — dinsdag 14 april</span>
+                            <span class="digest-subject">Jouw Kansenradar — dinsdag 19 januari</span>
                         </div>
                     </div>
                     <div class="digest-body">
@@ -117,7 +117,7 @@
                             <h3 class="tender-title">Communicatiecampagne rond mobiliteit — Stad Antwerpen</h3>
                             <div class="tender-details">
                                 <span><strong>Budget</strong> €45.000 – €80.000</span>
-                                <span><strong>Deadline</strong> 12 mei 2026</span>
+                                <span><strong>Deadline</strong> 16 februari 2027</span>
                                 <span><strong>Regio</strong> Antwerpen</span>
                             </div>
                             <p class="tender-summary">Stad Antwerpen zoekt een communicatiebureau voor een meerjarige bewustmakingscampagne rond duurzame mobiliteit. Het traject omvat strategische opmaak, creatie en distributie via online en offline kanalen, met focus op jongeren en pendelaars.</p>
@@ -132,7 +132,7 @@
                             <h3 class="tender-title">Marketing en promotie toeristische sector — Provincie Oost-Vlaanderen</h3>
                             <div class="tender-details">
                                 <span><strong>Budget</strong> €25.000 – €60.000</span>
-                                <span><strong>Deadline</strong> 28 april 2026</span>
+                                <span><strong>Deadline</strong> 2 februari 2027</span>
                                 <span><strong>Regio</strong> Gent</span>
                             </div>
                             <p class="tender-summary">Provinciebestuur Oost-Vlaanderen zoekt een marketingpartner voor de promotie van toeristische troeven. Opdracht omvat contentstrategie, social media beheer en campagneplanning voor 12 maanden.</p>
@@ -147,7 +147,7 @@
                             <h3 class="tender-title">Organisatie en communicatie jaarlijkse infodagen — VDAB</h3>
                             <div class="tender-details">
                                 <span><strong>Budget</strong> op aanvraag</span>
-                                <span><strong>Deadline</strong> 5 mei 2026</span>
+                                <span><strong>Deadline</strong> 9 februari 2027</span>
                                 <span><strong>Regio</strong> Heel Vlaanderen</span>
                             </div>
                             <p class="tender-summary">VDAB zoekt een partner voor de communicatie rond en logistieke organisatie van hun jaarlijkse infodagen in alle Vlaamse provincies. Inclusief digitale communicatiemiddelen.</p>
@@ -289,7 +289,7 @@
                         <p class="pricing-desc">Standaard tarief voor nieuwe klanten na de founding member-periode.</p>
                         <ul class="pricing-features">
                             <li>Alles van Founding Member</li>
-                            <li>Beschikbaar na mei 2026</li>
+                            <li>Zodra de 50 founding member-plaatsen vol zijn</li>
                         </ul>
                         <span class="btn-secondary">Binnenkort beschikbaar</span>
                     </div>
@@ -313,6 +313,7 @@
                             <label for="website">Website</label>
                             <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
                         </div>
+                        <input type="hidden" id="bron" name="bron" value="">
 
                         <div class="form-group">
                             <label for="email">E-mailadres <span class="required">*</span></label>
@@ -399,6 +400,22 @@
                             <span class="field-error" role="status" aria-live="polite" id="medewerkers-error"></span>
                         </div>
 
+                        <div class="form-group">
+                            <label>Hoe interessant is Kansenradar voor jouw bureau? <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="interesse" value="uitproberen"> Heel interessant: ik wil het uitproberen bij de lancering
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="interesse" value="meer-zien"> Interessant: ik wil eerst meer zien
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="interesse" value="nieuwsgierig"> Ik ben vooral nieuwsgierig
+                                </label>
+                            </div>
+                            <span class="field-error" role="status" aria-live="polite" id="interesse-error"></span>
+                        </div>
+
                         <div class="form-submit">
                             <button type="submit" class="btn-primary btn-large" id="submit-btn">
                                 <span class="btn-text">Claim je plek — betaal nog niets →</span>
@@ -412,8 +429,8 @@
                     <div id="waitlist-success" class="success-message" hidden>
                         <div class="success-icon" aria-hidden="true">✓</div>
                         <h3>Je staat op de lijst.</h3>
-                        <p>We nemen contact op zodra we klaar zijn voor de founding member onboarding. Verwacht een berichtje begin mei 2026.</p>
-                        <p class="success-note">Heb je vragen? Stuur een mail naar <a href="mailto:filip@kansenradar.be">filip@kansenradar.be</a></p>
+                        <p>Check je inbox: je krijgt meteen een voorbeeld van de digest, met echte opdrachten van de voorbije weken. Zodra de lancering in zicht is, nemen we persoonlijk contact op.</p>
+                        <p class="success-note">Heb je vragen? Stuur een mail naar <a href="mailto:hallo@kansenradar.be">hallo@kansenradar.be</a></p>
                     </div>
                 </div>
             </div>
@@ -462,7 +479,7 @@
     <!-- WIE ZIJN WIJ -->
     <section class="section-about">
         <div class="container">
-            <p class="about-text">Kansenradar wordt gebouwd vanuit Antwerpen.<br>Vragen? <a href="mailto:hello@autom8ted.be">hello@autom8ted.be</a></p>
+            <p class="about-text">Kansenradar wordt gebouwd vanuit Antwerpen.<br>Vragen? <a href="mailto:hallo@kansenradar.be">hallo@kansenradar.be</a></p>
         </div>
     </section>
 
@@ -478,7 +495,7 @@
                 <span>Kansenradar</span>
             </div>
             <p class="footer-tagline">Mis nooit nog een relevante overheidsopdracht.</p>
-            <p class="footer-legal">Een initiatief van <a href="https://autom8ted.be">Autom8ted</a> · <a href="mailto:filip@kansenradar.be">filip@kansenradar.be</a></p>
+            <p class="footer-legal">Een initiatief van <a href="https://autom8ted.be">Autom8ted</a> · <a href="mailto:hallo@kansenradar.be">hallo@kansenradar.be</a></p>
         </div>
     </footer>
 
