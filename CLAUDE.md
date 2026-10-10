@@ -1,7 +1,7 @@
 # Kansenradar — Projectcontext voor Claude Code
 
 ## Wat is Kansenradar?
-Een Belgische B2B intelligence service die marketing- en communicatiebureaus dagelijks op de hoogte houdt van relevante overheidsopdrachten. Geen platform, geen dashboard in fase 1 — het product is een curated dagelijkse e-maildigest.
+Een Belgische B2B intelligence service die marketing- en communicatiebureaus wekelijks op de hoogte houdt van relevante overheidsopdrachten. Geen platform, geen dashboard in fase 1 — het product is een curated wekelijkse e-maildigest (maandag 07:00).
 
 Mentale referentie voor de eindgebruiker: **Buienradar** — vertrouwd, functioneel, no-nonsense.
 
@@ -91,7 +91,7 @@ MIN_RELEVANCE_SCORE=6
 - **TED:** Tenders Electronic Daily — EU-breed publicatieplatform voor overheidsopdrachten
 - **Overheidsopdracht:** Government tender / public procurement
 - **Bestek:** Aanbestedingsdocument met technische specificaties
-- **Founding member:** Eerste 50 klanten aan gereduceerd tarief (€49/mnd, blijft gelden zolang klant)
+- **Founding member:** Eerste 50 klanten aan gereduceerd tarief (€29/mnd gedurende de eerste 12 maanden, daarna €59)
 - **NUTS-regio BE:** Geografische filtercode voor België/Vlaanderen
 
 ## Conventies
@@ -105,8 +105,8 @@ MIN_RELEVANCE_SCORE=6
 ## Pricing
 | Plan | Prijs | Doelgroep |
 |------|-------|-----------|
-| Founding Member | €49/mnd | Eerste 50 klanten (site toont €69 doorstreept) |
-| Starter | €69/mnd | Standaard na launch |
+| Founding Member | €29/mnd | Eerste 50 klanten, 12 maanden (site toont €59 doorstreept) |
+| Starter | €59/mnd | Standaard na launch en na de founding-periode |
 | Pro | (later) | Meerdere gebruikers + filters |
 
 ## Fase 1 Mijlpalen

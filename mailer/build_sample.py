@@ -30,7 +30,7 @@ INTRO = """
           <tr>
             <td style="background-color:#ffffff;padding:28px 32px 4px;border-bottom:1px solid #E2E8F0;">
               <p style="margin:0 0 12px;font-size:15px;font-weight:600;color:#1B2B4B;">Bedankt, je staat op de founding member-lijst.</p>
-              <p style="margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;">Hieronder zie je hoe je Kansenradar eruit zal zien. Geen verzonnen voorbeeld: dit zijn vijf echte opdrachten voor marketing- en communicatiebureaus, gepubliceerd in de voorbije weken. Sommige deadlines zijn misschien al voorbij. Straks krijg je ze op de ochtend dat ze verschijnen.</p>
+              <p style="margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;">Hieronder zie je hoe je Kansenradar eruit zal zien. Geen verzonnen voorbeeld: dit zijn vijf echte opdrachten voor marketing- en communicatiebureaus, gepubliceerd in de voorbije weken. Sommige deadlines zijn misschien al voorbij. Straks krijg je ze elke maandag, gebundeld per week.</p>
               <p style="margin:0 0 24px;font-size:14px;color:#374151;line-height:1.6;">Zodra we lanceren, nemen we persoonlijk contact op. Vragen of feedback? Antwoord gewoon op deze mail.<br>Filip, Kansenradar</p>
             </td>
           </tr>
@@ -56,10 +56,10 @@ def load_tenders() -> list[Tender]:
 
 def build_sample(today: date) -> str:
     html = digest_builder.build(load_tenders(), today, UNSUBSCRIBE)
-    # Greeting line in the header: replace the daily phrasing with a sample phrasing
+    # Greeting line in the header: replace the per-day phrasing with a sample phrasing
     greeting_start = html.index("Goedemorgen — ")
     greeting_end = html.index("</p>", greeting_start)
-    html = html[:greeting_start] + "Een voorbeeld van je dagelijkse digest, met echte opdrachten." + html[greeting_end:]
+    html = html[:greeting_start] + "Een voorbeeld van je wekelijkse digest, met echte opdrachten." + html[greeting_end:]
     for old, new in REPLACEMENTS:
         if html.count(old) != 1:
             raise ValueError(f"Template changed: expected exactly one occurrence of {old!r}")
