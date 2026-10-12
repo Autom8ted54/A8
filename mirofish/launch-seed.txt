@@ -1,0 +1,304 @@
+MIROFISH LAUNCH SEED: KANSENRADAR
+Version: 12 October 2026
+Market: Flanders (Belgium). All customers are Dutch-speaking (Flemish). All prices in euro.
+Note for the simulation: quotes from customers are written in Flemish Dutch, with an English gloss in brackets.
+
+======================================================================
+1. THE PRODUCT
+======================================================================
+
+What it is
+Kansenradar is a Belgian B2B intelligence service for marketing and communication agencies in Flanders. It monitors public procurement notices (government tenders) and sends one curated e-mail digest every Monday at 07:00 with only the tenders that are relevant for a marketing/communication agency: campaigns, marketing, PR, events and websites. Each tender gets a short summary (what is asked, budget if known, deadline, region, link to the full file) and a relevance score out of 10.
+
+It is deliberately not a platform: no login, no dashboard. "Wij monitoren, jij beslist." (We monitor, you decide.)
+
+How it works (behind the scenes)
+- Sources: TED (Tenders Electronic Daily, the EU publication platform) today. The Belgian e-Procurement / e-Notification feed is planned but not connected yet (API key still to be requested).
+- Filter on CPV codes (EU procurement categories) for advertising, marketing, PR, events and website design.
+- AI pre-screening and AI summaries, then a weekly selection.
+- The landing page also promises a "human check", filtering on the agency's own sector and region, deadline and budget alerts, and "subsidies, coming soon". These four promises are not built yet and are still under review.
+
+Who makes it
+An initiative of Autom8ted, a small Belgian automation company, built from Antwerp. Contact via a general mailbox at kansenradar.be.
+[MISSING: how much do you want customers to know about who is behind it (team size, background, face/name on the site)?]
+
+Status
+Pre-launch. The waitlist page is live since 10 October 2026. The weekly digest pipeline exists in a first version but does not run for paying customers yet.
+
+Proof we actually have
+- Everyone who joins the waitlist immediately receives a sample digest by e-mail with five real tenders published in recent weeks (source: TED), for example: a framework agreement for local "omgevingscommunicatie" (communication around public works), a B2B export campaign for Flemish dairy (VLAM), the continuation of the federal mental-health campaign "Spreek erover" (RIZIV), promotion campaigns for "De Grote Verkeersquiz", and a new web platform for VIB.
+- The landing page shows a mock-up digest with three example tenders (Stad Antwerpen, Provincie Oost-Vlaanderen, VDAB). These examples are illustrative, not real notices.
+- Claims on the landing page: "40.000+ public tenders per year in Belgium", "20+ platforms where they are scattered". [MISSING: source for these two numbers]
+- Customers, testimonials, case studies: none yet.
+- [MISSING: number of waitlist sign-ups so far, and how many chose "ik wil het uitproberen"]
+- [MISSING: any agency that already said, in writing, it would pay; or a past result such as "agency X found tender Y through us"]
+
+======================================================================
+2. THE OFFER WE ARE TESTING
+======================================================================
+
+Price
+- Founding Member: EUR 29 per month for the first 12 months, then EUR 59 per month. Only for the first 50 agencies. The page shows EUR 59 struck through next to EUR 29.
+- Starter (after the 50 founding places are gone): EUR 59 per month.
+- Pro (later, not available): multiple users and extra filters. [MISSING: Pro price]
+- Prices: [MISSING: excl. or incl. VAT? B2B buyers will assume excl. VAT]
+
+What is included (as promised on the page)
+- Weekly digest, every Monday at 07:00
+- Filtered on your sector and region (promised, not built yet)
+- AI summary per tender
+- Deadline and budget alerts (promised, not built yet)
+- Direct link to the full tender file
+- Personal onboarding: "together we set up your profile on your sector and region"
+- One user / one mailbox [MISSING: can an agency forward it or add colleagues on the founding plan?]
+
+Guarantee / refund / risk reversal
+- Joining the waitlist is free, no credit card.
+- "We contact you personally before launch; only then you decide." The subscription only starts when the customer confirms.
+- No yearly contract, cancel monthly.
+- Payment via Mollie.
+- [MISSING: any money-back guarantee or free first weeks? Currently there is none.]
+- [MISSING: what happens to the EUR 29 if someone cancels and comes back: do they keep the founding price?]
+
+Launch date and channel
+- Waitlist live since 10 October 2026 at kansenradar.be.
+- Main channel: cold e-mail outreach from a separate domain to about 288 verified Flemish agencies, in two waves: wave A = 84 agencies that already won public tenders (found via TED award notices), wave B = 204 other marketing/communication agencies. Three mails per agency (day 0, day 4, day 10), plain text, signed by the founder, opening with "Beste,". Planned start: early November 2026.
+- Secondary: posts on the Kansenradar LinkedIn company page (no personal profiles).
+- Decision moment on whether to build further: end of November 2026.
+- [MISSING: date of the first paid digest / paid launch]
+
+======================================================================
+3. THE LAUNCH PAGE (live at kansenradar.be, quoted in Dutch with English gloss)
+======================================================================
+
+Headline
+"Elke week publiceren Vlaamse overheden nieuwe marketingopdrachten. De meeste bureaus missen ze."
+(Every week Flemish governments publish new marketing tenders. Most agencies miss them.)
+
+Subheadline
+"Kansenradar is een intelligence service die elke week overheidsopdrachten filtert en samenvat voor marketing- en communicatiebureaus in Vlaanderen."
+"Niet door gebrek aan kwaliteit. Maar omdat niemand tijd had om tientallen platformen dagelijks te checken."
+(Not for lack of quality, but because nobody had time to check dozens of platforms every day.)
+
+Body (in page order)
+1. Three numbers: "40.000+ overheidsopdrachten per jaar in België" / "20+ platformen waar ze verspreid staan" / "€0 omzet als je het dossier te laat vindt".
+2. "Kansenradar monitort alle publieke aanbestedingen en stuurt jou elke week alleen de opdrachten die relevant zijn voor jouw bureau. Geen platform om in te loggen. Geen dashboard om bij te houden. Elke maandagochtend één duidelijke mail in je inbox."
+3. Mock-up of the Monday mail ("Elke maandag om 7:00 in je inbox"): 3 tenders with score (9/10, 8/10, 6/10), budget range, deadline, region, 2-line summary, "Volledig dossier bekijken →". Footer: "Deze week 47 opdrachten gescand. 3 relevant voor jouw bureau."
+4. Without / with Kansenradar:
+   Without: checking 20+ platforms by hand every week; hours lost on irrelevant tender documents; still missing tenders because of timing; nobody in the agency doing this structurally.
+   With: one mail every Monday with what is relevant; a summary so you decide in 2 minutes; never miss a tender because of timing; "Jij beslist, wij monitoren."
+5. Comparison table "Waarom bureaus kiezen voor Kansenradar": TenderWolf vs Kansenradar.
+   Price: EUR 79/month vs EUR 29/month (founding). Sector: all sectors vs only your sector. Filtering: you do it yourself vs we do it for you. Output: dashboard vs weekly digest mail. Human check: no vs yes. Subsidies: no vs coming soon.
+6. Pricing cards: Founding Member (EUR 59 struck through, EUR 29/month, first 50 agencies, 12 months then EUR 59) and Starter after launch (EUR 59/month, "binnenkort beschikbaar"). Line under it: "Geen jaarcontract. Maandelijks opzegbaar. Geen creditcard nodig voor inschrijving op de wachtlijst. Eén gewonnen opdracht betaalt je abonnement voor jaren terug."
+7. Waitlist form "Founding Member, max 50 bureaus. Wees erbij van dag één." Fields: website, e-mail, does your agency already bid on public tenders, hours per week spent searching, do you use a tool like TenderWolf, biggest frustration (optional), team size, how interesting is Kansenradar for you.
+8. "Zo werkt het": 1. sign up for free (30 seconds) 2. we contact you personally before launch 3. together we set your profile on sector and region 4. you start when you are ready.
+9. Footer: "Kansenradar wordt gebouwd vanuit Antwerpen." "Mis nooit nog een relevante overheidsopdracht. Een initiatief van Autom8ted."
+
+Button text
+Main: "Claim je plek — betaal nog niets →" (Claim your spot, pay nothing yet)
+Under the button: "✓ Gratis inschrijven · ✓ Geen creditcard · ✓ Abonnement start pas als jij bevestigt"
+Pricing card button: "Bekijk de founding member voorwaarden →"
+
+After sign-up
+"Je staat op de lijst. Check je inbox: je krijgt meteen een voorbeeld van de digest, met echte opdrachten van de voorbije weken."
+
+======================================================================
+4. THE AD [DRAFT]
+======================================================================
+
+There is no paid ad yet. The real "ad" is the cold e-mail (see section 2). Below: the cold e-mail as it will be sent, plus a [DRAFT] LinkedIn company-page post.
+
+4a. Cold e-mail, wave A (agencies that already won public tenders), as written in the project
+Subject: "Overheidsopdrachten voor {bureaunaam}"
+Hook: "Ik zag dat {bureaunaam} de voorbije jaren al overheidsopdrachten binnenhaalde. Dan weet je ook hoeveel tijd het kost om ze op tijd te vinden."
+Body: we monitor Belgian and European publications, you get one mail every Monday with only the tenders for marketing and communication agencies, summarised so you know in two minutes if it is for you. Recent examples: omgevingscommunicatie Stad Hasselt, an export campaign for VLAM, the RIZIV campaign "Spreek erover". "We starten binnenkort met 50 founding members. Inschrijven op de wachtlijst is gratis, en je krijgt meteen een voorbeeld met echte opdrachten." Link to kansenradar.be. Opt-out: reply "stop".
+Visual: none (plain text, no images).
+
+4b. LinkedIn company-page post [DRAFT]
+Hook: "Deze week zochten Vlaamse overheden een bureau voor een campagne. Wist jij het?"
+(This week Flemish governments were looking for an agency for a campaign. Did you know?)
+Body: "Elke week verschijnen er nieuwe opdrachten voor communicatie, campagnes, events en websites. Verspreid over Belgische en Europese publicaties, vaak met een deadline van een paar weken. Kansenradar zet ze elke maandag om 7:00 in één mail: wat er gevraagd wordt, budget, deadline, en of het iets voor jouw bureau is. Wij monitoren, jij beslist. De eerste 50 bureaus betalen €29 per maand in plaats van €59. Inschrijven op de wachtlijst is gratis."
+Call to action: "Claim je plek →"
+What the image shows: a phone screen at 07:00 on a Monday with the Kansenradar mail open, three tender cards visible with a score badge (9/10, 8/10, 6/10), a budget line and a red deadline label. Navy and amber colours, no stock photos of people.
+
+======================================================================
+5. THE MARKET: 10 CUSTOMER TYPES
+======================================================================
+
+All example people below are fictional.
+
+----------------------------------------------------------------------
+Type 1. The burned sceptic
+----------------------------------------------------------------------
+Who: owner of a small to mid-size communication agency (4 to 10 people). Paid in the past for a tender-alert or lead-generation subscription that sent mostly irrelevant notices (cleaning, IT hardware, road works) and was hard to cancel. Now distrusts every "we find opportunities for you" offer.
+Uses today: nothing paid. Checks the free government portal now and then, mostly hears about tenders through contacts. Pays EUR 0, but remembers paying for a year of a service that never delivered.
+Cares most about: no lock-in, proof before paying, not wasting time on 80-page tender documents that lead nowhere.
+Most likely objection: "Heb ik al eens gehad, zo'n abonnement. Elke dag twintig mails over schoonmaak en asfalt, en opzeggen was een hel. Eerst zien, dan geloven." (Had that before. Twenty mails a day about cleaning and asphalt, and cancelling was hell. Seeing is believing.)
+Hangs out online: LinkedIn (reads, rarely posts), Pub.be, UNIZO newsletters.
+Example people:
+- Kristof Van Damme, 49, Aalst. Still angry about a 12-month contract he could not cancel early; tells the story at every networking drink.
+- Ann Verhaegen, 44, Turnhout. Runs a 6-person agency; once spent two full weekends on a tender file and lost on price.
+- Bart De Smedt, 52, Dendermonde. Deletes every cold mail that contains the word "AI".
+- Els Wouters, 38, Lier. Willing to try anything that is truly cancellable monthly, but wants it in writing.
+
+----------------------------------------------------------------------
+Type 2. The loyal TenderWolf user
+----------------------------------------------------------------------
+Who: account or new-business manager at an agency of 10 to 25 people that uses TenderWolf every day and is happy with it. Has set up their own search filters and likes having all tenders in one dashboard.
+Uses today: TenderWolf, at EUR 79/month according to the comparison on our own landing page [MISSING: verified current TenderWolf price and plans].
+Cares most about: completeness, being in control of their own filters, not having one more mail in the inbox.
+Most likely objection: "Wij gebruiken TenderWolf al jaren en ik heb mijn filters perfect ingesteld. Waarom zou ik overstappen naar iets dat nog niet eens draait?" (We've used TenderWolf for years and my filters are perfect. Why switch to something that isn't even running yet?)
+Hangs out online: LinkedIn, ACC Belgium events, internal Slack/Teams with colleagues.
+Example people:
+- Lien Claes, 34, Mechelen. Spends the first 30 minutes of every workday in the TenderWolf dashboard with a coffee.
+- Pieter Maes, 41, Leuven. Built a shared tender pipeline in a spreadsheet fed from TenderWolf exports.
+- Sarah Jacobs, 29, Gent. Recommended TenderWolf to two other agencies and feels a bit responsible for that choice.
+- Tom Lemmens, 46, Hasselt. Would only add a second service if it is cheaper than one lunch with a client.
+
+----------------------------------------------------------------------
+Type 3. The price hunter who compares everything
+----------------------------------------------------------------------
+Who: founder of a 2 to 5 person agency, very cost-conscious, keeps a spreadsheet of every software subscription and cancels anything unused for a month.
+Uses today: free sources only (the Belgian government portal, TED, Google alerts). Pays EUR 0 in money, spends 1 to 2 hours a week searching.
+Cares most about: price per month, what exactly is in each plan, VAT, what happens after 12 months.
+Most likely objection: "€29 nu, maar na een jaar €59 en dan zit je eraan vast. De bronnen zijn toch gratis? Wat betaal ik dan eigenlijk?" (EUR 29 now, but EUR 59 after a year and then you're stuck. The sources are free anyway, so what am I actually paying for?)
+Hangs out online: LinkedIn, Facebook groups for Flemish freelancers and small business owners, comparison and review sites.
+Example people:
+- Jens Willems, 36, Kortrijk. Has a tab per subscription in his budget spreadsheet, including a column "really used this month?".
+- Nathalie Goossens, 42, Sint-Niklaas. Always asks for a discount, even on EUR 29.
+- Wout Peeters, 31, Geel. Will first try to rebuild the service himself with free alerts before paying.
+
+----------------------------------------------------------------------
+Type 4. The small studio that never bid on a tender
+----------------------------------------------------------------------
+Who: creative studio or design/content duo (1 to 3 people). Mostly private clients, no experience with public procurement, a bit intimidated by tender documents, certificates and legal language.
+Uses today: nothing. Pays EUR 0. Has never looked at a government portal.
+Cares most about: whether they even stand a chance, how much work a bid is, someone explaining the process.
+Most likely objection: "Klinkt interessant, maar wij zijn met twee. Maken wij überhaupt kans tegen de grote bureaus? En wie gaat die bestekken lezen?" (Sounds interesting, but there are two of us. Do we even stand a chance against the big agencies? And who's going to read those tender documents?)
+Hangs out online: Instagram, LinkedIn, Behance, local creative meetups.
+Example people:
+- Lotte Vermeulen, 27, Gent. Illustrator and designer, dreams of doing a city campaign for her own town.
+- Ruben Hermans, 33, Genk. Video maker who heard from a friend that "the government pays well, but late".
+- Femke Van den Broeck, 30, Brugge. Duo studio, did one job for a local museum via an invitation, didn't know it was a public contract.
+
+----------------------------------------------------------------------
+Type 5. The experienced tender winner (mid-size agency)
+----------------------------------------------------------------------
+Who: managing partner or bid coordinator at a 15 to 30 person full-service agency that has already won several public contracts (cities, provinces, Flemish agencies). Has a routine: one person checks the government portal daily.
+Uses today: the free Belgian portal and TED, checked by hand by a staff member, roughly 3 to 5 hours per week of internal time. Some may also pay for a tool [MISSING: which tools these agencies actually use].
+Cares most about: not missing the big framework agreements, early warning so they have enough time to build a team and an offer, quality of the summary.
+Most likely objection: "Wij volgen dat zelf al dagelijks op. Als jullie alleen TED hebben, mis je de helft van de Vlaamse opdrachten. Wat zie jij dat wij niet zien?" (We already follow that daily ourselves. If you only have TED you miss half of the Flemish tenders. What do you see that we don't?)
+Hangs out online: LinkedIn, ACC Belgium, Creative Belgium, Voka events.
+Example people:
+- Joris Mertens, 51, Antwerpen. Has won three city framework agreements and knows every procurement officer by first name.
+- Katrien Dewulf, 39, Roeselare. Bid coordinator who keeps a big wall calendar of tender deadlines.
+- Stijn Janssens, 45, Mechelen. Lost a large provincial contract once because they spotted it ten days before the deadline.
+- Hanne De Backer, 37, Leuven. Would gladly hand the daily checking to someone else so her junior can do real work.
+
+----------------------------------------------------------------------
+Type 6. The event agency
+----------------------------------------------------------------------
+Who: event and experience agency (5 to 20 people) doing congresses, info days, openings and public events. Business is seasonal and very deadline-driven.
+Uses today: network, direct invitations from public clients they already know, occasional searches on the government portal. Pays EUR 0 for tools.
+Cares most about: hearing about events early (they need months of planning), budgets, being in the right category (events are often listed under communication or logistics).
+Most likely objection: "Event-opdrachten zitten vaak verstopt onder 'logistiek' of 'organisatie'. Vangen jullie die ook, of enkel wat netjes 'evenement' heet?" (Event tenders are often hidden under 'logistics' or 'organisation'. Do you catch those too, or only what's neatly labelled 'event'?)
+Hangs out online: LinkedIn, Instagram, event-industry federation newsletters.
+Example people:
+- Dries Van Hoof, 40, Oostende. Organises a large coastal summer event every year and is idle every January.
+- Eline Smets, 35, Tongeren. Specialised in congresses for public bodies; hates last-minute tenders with three weeks to respond.
+- Michiel Coppens, 47, Waregem. Sees public events as a stable base next to volatile private launches.
+
+----------------------------------------------------------------------
+Type 7. The web and digital agency
+----------------------------------------------------------------------
+Who: web/digital agency (3 to 15 people) building websites, platforms and digital campaigns. Gets flooded with IT tenders that are way too large or purely technical.
+Uses today: the free portal with keyword searches like "website", sometimes a colleague's TenderWolf account. Pays EUR 0 to EUR 79/month.
+Cares most about: separating "website for a municipality" from "ERP migration for a federal service"; size of the contract; technical requirements (accessibility, hosting).
+Most likely objection: "Als ik 'website' zoek krijg ik elke week dertig IT-bestekken voor serverparken. Hoe weet ik dat jullie selectie beter is dan mijn eigen zoekterm?" (When I search 'website' I get thirty IT tenders for server farms every week. How do I know your selection is better than my own search term?)
+Hangs out online: LinkedIn, GitHub, WordPress and web-developer Facebook groups, Bloovi.
+Example people:
+- Thomas Wuyts, 32, Herentals. Builds WordPress sites for local governments and wants more of them.
+- Charlotte Aerts, 38, Vilvoorde. Runs a 12-person digital agency, worried about accessibility requirements in public tenders.
+- Arne Desmet, 28, Ieper. Developer-founder, reads every summary with suspicion of AI mistakes.
+
+----------------------------------------------------------------------
+Type 8. The PR and strategy consultant who relies on network
+----------------------------------------------------------------------
+Who: independent PR or communication strategy consultant, or a 2 to 6 person PR firm, often ex-government or ex-journalist. Gets work through relationships.
+Uses today: personal network, LinkedIn, direct invitations to small negotiated contracts. Pays EUR 0.
+Cares most about: reputation, relevance, not chasing open calls that are "already decided".
+Most likely objection: "De interessante opdrachten zijn meestal al half beslist voor ze gepubliceerd worden. Wie niet gekend is bij die dienst, maakt geen kans." (The interesting contracts are usually half decided before they're published. If they don't know you, you don't stand a chance.)
+Hangs out online: LinkedIn (posts actively), Twitter/X, Pub.be.
+Example people:
+- Griet Van Acker, 55, Gent. Former spokesperson at a public agency; believes tenders are mostly written for one bidder.
+- Koen Verstraete, 48, Kortrijk. Small PR firm, does crisis communication for municipalities via direct invitations.
+- Inge Bogaerts, 43, Diest. Freelancer who would bid more often if she found tenders early enough to team up with others.
+
+----------------------------------------------------------------------
+Type 9. The AI-savvy do-it-yourselfer
+----------------------------------------------------------------------
+Who: growth or performance-marketing agency (3 to 10 people) that automates everything. Comfortable with ChatGPT, Make/Zapier, scrapers and RSS feeds.
+Uses today: a ChatGPT subscription and some homemade automations. Pays the AI subscription anyway; would build a tender alert themselves.
+Cares most about: whether it can be done cheaper or better in-house, data sources, speed.
+Most likely objection: "Dit bouw ik in een namiddag met ChatGPT en een RSS-feed. Waarom zou ik daar elke maand voor betalen?" (I can build this in an afternoon with ChatGPT and an RSS feed. Why would I pay for it every month?)
+Hangs out online: LinkedIn, Bloovi, AI and automation communities, YouTube tutorials.
+Example people:
+- Jonas Peeters, 30, Leuven. Has a Make scenario for almost every admin task and is proud of it.
+- Laura Martens, 34, Antwerpen. Tried scraping the government portal once and gave up on the login wall.
+- Sander Claeys, 27, Hasselt. Will sign up just to see how the summaries are built.
+
+----------------------------------------------------------------------
+Type 10. The large agency with a tender team
+----------------------------------------------------------------------
+Who: agency of 30+ people, sometimes part of a group or network, with a dedicated tender or new-business team. Public sector is a serious part of revenue.
+Uses today: one or more paid tender tools [MISSING: which tools and what they pay], plus manual checks, plus procurement advisers. Budget for tools is not the issue; process and multiple users are.
+Cares most about: multiple users, integration with their pipeline/CRM, coverage of all Belgian and EU sources, reliability, invoice and contract formalities.
+Most likely objection: "Leuk voor een klein bureau, maar wij hebben vijf mensen die dit opvolgen. Eén mail per week voor één persoon past niet in onze werking." (Nice for a small agency, but we have five people following this up. One mail a week for one person doesn't fit how we work.)
+Hangs out online: LinkedIn, ACC Belgium board and events, trade press.
+Example people:
+- Veerle Hendrickx, 50, Vilvoorde. Head of new business, needs a purchase order and a supplier number before anything is paid.
+- Matthias Vandenberghe, 44, Gent. Tender manager who reports a monthly "won/lost/missed" figure to the board.
+- Nele Pauwels, 39, Antwerpen. Would forward the digest to the whole team and ask for five seats.
+
+======================================================================
+6. COMPETITORS AND ALTERNATIVES
+======================================================================
+
+TenderWolf
+- What they sell: an online tender-search service with a dashboard covering all sectors; the user sets their own filters.
+- Price: EUR 79/month, according to the comparison table on the Kansenradar landing page. [MISSING: verified current price, plans and whether a free trial exists]
+- What people like: [MISSING: real feedback from users, e.g. from waitlist answers]
+- What people hate: [MISSING: real feedback]. Our own assumption (not verified): too generic for a marketing agency, you still have to filter yourself.
+
+Free government sources (Belgian e-Procurement / e-Notification portal, TED)
+- What they sell: the official publication of all tenders. Free.
+- Price: EUR 0.
+- What people like: complete, official, free. [MISSING: real feedback]
+- What people hate: [MISSING: real feedback]. Assumed: clunky search, lots of noise, time-consuming.
+
+Do-it-yourself with AI and automation (ChatGPT, Make/Zapier, RSS, Google Alerts)
+- What they sell: general tools agencies already pay for.
+- Price: [MISSING: if you want, typical cost of the tools your prospects already have]
+- What people like: control, feels free because they already pay for the tools.
+- What people hate: [MISSING: real feedback]
+
+Network and direct invitations
+- Small public contracts are often awarded by inviting a few agencies directly, without public notice. Agencies with good contacts rely on that.
+- Price: EUR 0, but requires relationships.
+
+Other paid tender-alert services in Belgium
+- [MISSING: which other services your prospects mention (waitlist answer "Ja, een andere tool"), with their prices]
+
+======================================================================
+7. CONTEXT
+======================================================================
+
+- Market: Flanders, Belgium. The simulated customers are Dutch-speaking (Flemish) agency owners and employees, with Flemish names, living and working in Flemish municipalities. All prices are in euro. They read Flemish Dutch and expect "je/jij" tone, no hype.
+- Buyers are businesses (B2B). Agency owners usually think in prices excluding VAT and expect a proper invoice.
+- Public bodies in Belgium (cities, municipalities, provinces, Flemish agencies, federal services) regularly publish tenders for campaigns, communication, events and websites. Publications are spread over the Belgian government portal and, for larger contracts, the EU's TED.
+- Many smaller contracts are awarded after directly inviting a few agencies, so they are never visible in any feed. Experienced agencies know this.
+- Tender files are long and formal; many small agencies think public work is "not for us": too much paperwork, price-driven, slow payment.
+- AI is everywhere in marketing right now. Agencies use ChatGPT daily and are both curious about and tired of "AI" offers; many think they can build such a filter themselves.
+- Agencies receive a lot of cold e-mail and LinkedIn pitches. This offer will reach them as a plain-text cold e-mail from an unknown sender.
+- Kansenradar is pre-launch: a waitlist, a sample mail with real tenders, no paying customers yet. Founding price EUR 29/month for the first 50 agencies (12 months), then EUR 59.
+- Timing: outreach starts in November 2026, toward year-end, when agencies are busy with budgets and their own clients' year-end campaigns. [MISSING: anything specific happening in the Flemish public sector or agency market right now that you want included]
