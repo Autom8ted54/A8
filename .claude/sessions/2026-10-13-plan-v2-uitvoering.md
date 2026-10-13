@@ -16,7 +16,7 @@ Werkwijze: eerst alles wat Claude zelf kan, dan Filips vragen/stappen ÉÉN VOOR
 
 - [x] Voorwaarden + FAQ goedgekeurd door Filip; LIVE gezet 13 okt 09:5x (deploy.sh door Filip zelf: auto-mode classifier blokkeert deploy door Claude). Live check desktop + mobiel ok
 
-- [x] Test 1 (13 okt 10:36): platte tekst landt in Gmail Primair. Filip vond hem saai → keuze 'Beide': echte openstaande opdracht in mail 1 (auto uit mailer/sample_tenders.json, ≥7 dagen open, anders weigert script) + lichte HTML (kaartje, logo-signatuur `site/assets/logo-mail.png`). Wacht op deploy logo door Filip, dan test 2 (opnieuw checken: nog Primair?)
+- [x] Test 1 (13 okt 10:36): platte tekst landt in Gmail Primair. Filip vond hem saai → keuze 'Beide': echte openstaande opdracht in mail 1 (auto uit mailer/sample_tenders.json, ≥7 dagen open, anders weigert script) + lichte HTML (kaartje, logo-signatuur `site/assets/logo-mail.png`). Logo gedeployed; test 2 (10:42): Gmail Primair, Filip: 'ziet er goed uit' ✓. Volgende: mail-tester
 
 ## Bezig / volgt (Claude)
 - [ ] e-Procurement-scraper zodra toegang er is (+ events onder "logistiek" via zoekwoorden: belofte in FAQ)
