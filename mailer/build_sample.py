@@ -29,7 +29,7 @@ INTRO = """
           <!-- Waitlist intro -->
           <tr>
             <td style="background-color:#ffffff;padding:28px 32px 4px;border-bottom:1px solid #E2E8F0;">
-              <p style="margin:0 0 12px;font-size:15px;font-weight:600;color:#1B2B4B;">Bedankt, je staat op de founding member-lijst.</p>
+              <p style="margin:0 0 12px;font-size:15px;font-weight:600;color:#0E2340;">Bedankt, je staat op de founding member-lijst.</p>
               <p style="margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;">Hieronder zie je hoe je Kansenradar eruit zal zien. Geen verzonnen voorbeeld: dit zijn vijf echte opdrachten voor marketing- en communicatiebureaus, gepubliceerd in de voorbije weken. Sommige deadlines zijn misschien al voorbij. Straks krijg je ze elke maandag, gebundeld per week.</p>
               <p style="margin:0 0 24px;font-size:14px;color:#374151;line-height:1.6;">Zodra we lanceren, nemen we persoonlijk contact op. Vragen of feedback? Antwoord gewoon op deze mail.<br>Filip, Kansenradar</p>
             </td>

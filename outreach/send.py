@@ -150,7 +150,7 @@ def render_html(t: Template, naam: str, example: dict | None = None) -> str:
             paragraphs.append(f'<p style="margin:0 0 14px;">{_inline(block)}</p>')
     return (
         '<!DOCTYPE html><html lang="nl"><body style="margin:0;padding:0;">'
-        '<div style="max-width:560px;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;'
+        '<div style="max-width:560px;font-family:\'Instrument Sans\',-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;'
         'font-size:15px;line-height:1.55;color:#1F2937;">' + "".join(paragraphs) + "</div></body></html>"
     )
 
@@ -166,7 +166,7 @@ def _example_card(ex: dict) -> str:
         meta += f" · {html.escape(ex['budget_text'])}"
     return (
         '<div style="margin:0 0 16px;padding:12px 16px;border-left:3px solid #F5A623;background:#FFF8EC;border-radius:4px;">'
-        f'<div style="font-weight:600;color:#1B2B4B;">{html.escape(ex["title"])}</div>'
+        f'<div style="font-weight:600;color:#0E2340;">{html.escape(ex["title"])}</div>'
         f'<div style="font-size:13px;color:#64748B;margin:2px 0 6px;">{meta}</div>'
         f'<div style="font-size:14px;">{html.escape(_short_summary(ex["summary"]))}</div>'
         f'<div style="font-size:13px;margin-top:6px;"><a href="{html.escape(ex["url"])}" style="color:#B7791F;">Bekijk de publicatie →</a></div>'
@@ -184,7 +184,7 @@ def _signature(block: str) -> str:
         '<table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 0 4px;"><tr>'
         f'<td style="padding-right:10px;vertical-align:middle;"><img src="{LOGO_URL}" width="32" height="32" alt="Kansenradar" style="display:block;"></td>'
         '<td style="vertical-align:middle;font-size:13px;line-height:1.4;color:#64748B;">'
-        '<strong style="color:#1B2B4B;font-size:14px;">Kansenradar</strong><br>'
+        '<strong style="color:#0E2340;font-size:14px;">Kansenradar</strong><br>'
         f'Wij monitoren, jij beslist · <a href="{SITE_URL}" style="color:#B7791F;">kansenradar.be</a><br>'
         'Een initiatief van Autom8ted</td></tr></table>'
     )
