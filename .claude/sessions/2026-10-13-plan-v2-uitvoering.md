@@ -16,7 +16,7 @@ Werkwijze: eerst alles wat Claude zelf kan, dan Filips vragen/stappen ÉÉN VOOR
 
 - [x] Voorwaarden + FAQ goedgekeurd door Filip; LIVE gezet 13 okt 09:5x (deploy.sh door Filip zelf: auto-mode classifier blokkeert deploy door Claude). Live check desktop + mobiel ok
 
-- [x] Test 1 (13 okt 10:36): platte tekst landt in Gmail Primair. Filip vond hem saai → keuze 'Beide': echte openstaande opdracht in mail 1 (auto uit mailer/sample_tenders.json, ≥7 dagen open, anders weigert script) + lichte HTML (kaartje, logo-signatuur `site/assets/logo-mail.png`). Logo gedeployed; test 2 (10:42): Gmail Primair, Filip: 'ziet er goed uit' ✓. Volgende: mail-tester
+- [x] Test 1 (13 okt 10:36): platte tekst landt in Gmail Primair. Filip vond hem saai → keuze 'Beide': echte openstaande opdracht in mail 1 (auto uit mailer/sample_tenders.json, ≥7 dagen open, anders weigert script) + lichte HTML (kaartje, logo-signatuur `site/assets/logo-mail.png`). Logo gedeployed; test 2 (10:42): Gmail Primair, Filip: 'ziet er goed uit' ✓. mail-tester (13 okt 10:44): 9.5/10 (SPF/DKIM/DMARC pass; enige aftrek 0.5 voor kleine HTML met afbeelding) ✓
 
 ## Bezig / volgt (Claude)
 - [ ] e-Procurement-scraper zodra toegang er is (+ events onder "logistiek" via zoekwoorden: belofte in FAQ)
@@ -24,8 +24,8 @@ Werkwijze: eerst alles wat Claude zelf kan, dan Filips vragen/stappen ÉÉN VOOR
 ## Wachtrij vragen/stappen voor Filip (één per één, in deze volgorde)
 1. ~~Voorwaarden + FAQ goedkeuren~~ ✓
 2. ~~BOSA-mail versturen~~ ✓ verstuurd 13 okt 10:35 naar e.proc@publicprocurement.be. Wachten op antwoord; geen reactie tegen ±20 okt → opvolgen (helpdesk ook telefonisch 02 740 80 00)
-3. Testmails: 6 verstuurd 13 okt 10:36 naar Filips Gmail (state onaangeroerd) — wacht op zijn bevinding (inbox/spam, opmaak). Daarna mail-tester. Origineel: Filip geeft het adres waar 6 testmails (A1-3, B1-3) heen mogen → `uv run python -m outreach.send --test ADRES`; daarna één naar mail-tester.com
-4. Outreachmailbox kansenradar.eu laten doorsturen (met kopie bewaren) naar Filips gewone inbox, zodat hij antwoorden ziet
+3. ~~Testmails + mail-tester~~ ✓ — 6 verstuurd 13 okt 10:36 naar Filips Gmail (state onaangeroerd) — wacht op zijn bevinding (inbox/spam, opmaak). Daarna mail-tester. Origineel: Filip geeft het adres waar 6 testmails (A1-3, B1-3) heen mogen → `uv run python -m outreach.send --test ADRES`; daarna één naar mail-tester.com
+4. Outreachmailbox hallo@kansenradar.eu toevoegen in Filips mail-app (IMAP mail.kansenradar.eu:993, SMTP 465), zodat hij antwoorden ziet en vanaf .eu antwoordt — gevraagd 13 okt
 5. Later: go voor golf A zodra e-Procurement in de digest zit
 
 ## Beslissingen 13 okt (zie plan)
