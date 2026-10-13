@@ -25,8 +25,13 @@ Werkwijze: eerst alles wat Claude zelf kan, dan Filips vragen/stappen ÉÉN VOOR
 1. ~~Voorwaarden + FAQ goedkeuren~~ ✓
 2. ~~BOSA-mail versturen~~ ✓ verstuurd 13 okt 10:35 naar e.proc@publicprocurement.be. Wachten op antwoord; geen reactie tegen ±20 okt → opvolgen (helpdesk ook telefonisch 02 740 80 00)
 3. ~~Testmails + mail-tester~~ ✓ — 6 verstuurd 13 okt 10:36 naar Filips Gmail (state onaangeroerd) — wacht op zijn bevinding (inbox/spam, opmaak). Daarna mail-tester. Origineel: Filip geeft het adres waar 6 testmails (A1-3, B1-3) heen mogen → `uv run python -m outreach.send --test ADRES`; daarna één naar mail-tester.com
-4. Outreachmailbox hallo@kansenradar.eu toevoegen in Filips mail-app (IMAP mail.kansenradar.eu:993, SMTP 465), zodat hij antwoorden ziet en vanaf .eu antwoordt — gevraagd 13 okt
+4. ~~Outreachmailbox in Mail op de Mac~~ ✓ 13 okt 10:48 (via .mobileconfig-profiel, wachtwoord door Filip zelf; verwijderen = profiel weg in Systeeminstellingen)
 5. Later: go voor golf A zodra e-Procurement in de digest zit
 
 ## Beslissingen 13 okt (zie plan)
 excl. btw · mix beloftes (regio/sector + menselijke check blijven, Filip ±15 min/week) · alleen bedrijfsgegevens · tabel TenderWolf ongewijzigd (risico genoteerd) · nieuwe meetlat met harde ja's · persoonlijke adressen gewoon versturen (risico genoteerd) · geen extra garantie · alle outreach wacht op e-Procurement, beslismoment ±4 weken na eerste mail
+
+## Stand 13 okt 10:48
+Alle voorbereiding klaar. Alles wacht nu op het antwoord van BOSA (e-Procurement-toegang).
+Volgende zodra BOSA antwoordt: scraper bouwen (stap 6 plan), voorbeeldmail vernieuwen (7), go golf A (9).
+Opvolgen BOSA rond 20 okt als er niets komt. In de wachttijd mogelijk: design-/fontrefresh (niet blokkerend).
