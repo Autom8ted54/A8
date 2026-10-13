@@ -2,7 +2,8 @@
 
 Afzender: Filip <OUTREACH_EMAIL> (kansenradar.eu), zonder aparte Reply-To: antwoorden komen in de outreachmailbox, zodat het script "stop" en antwoorden automatisch herkent.
 Verzenden: `uv run python -m outreach.send` (zie de uitleg bovenaan `outreach/send.py`).
-Platte tekst, geen opmaak of afbeeldingen (komt beter door spamfilters).
+Lichte opmaak: elke mail gaat als platte tekst + eenvoudige HTML-versie (klein logo en link in de signatuur, voorbeeldopdracht als kader). Geteste plaats: Gmail Primair.
+`{voorbeeld}` = één echte, nog openstaande opdracht, automatisch gekozen uit `mailer/sample_tenders.json` (hoogste score, deadline minstens 7 dagen weg). Is er geen geschikte meer, dan weigert het script te versturen.
 Mail 2 en 3 gaan als antwoord in dezelfde conversatie en stoppen automatisch zodra iemand antwoordt.
 `{naam}` = bedrijfsnaam. De link bevat `?bron=…` zodat we zien welke mail werkt.
 
@@ -19,7 +20,9 @@ Ik zag dat {naam} de voorbije jaren al overheidsopdrachten binnenhaalde. Dan wee
 
 Daarvoor bouwen we Kansenradar: wij monitoren de Belgische en Europese publicaties, en jij krijgt elke maandag één mail met enkel de opdrachten voor marketing- en communicatiebureaus. Kort samengevat, zodat je in twee minuten weet of het iets voor jullie is. Wij monitoren, jij beslist.
 
-De voorbije weken stonden er onder andere de omgevingscommunicatie van Stad Hasselt, een exportcampagne van VLAM en de campagne "Spreek erover" van het RIZIV tussen.
+Een voorbeeld dat nu openstaat:
+
+{voorbeeld}
 
 We starten binnenkort met 50 founding members. Inschrijven op de wachtlijst is gratis, en je krijgt meteen een voorbeeld met echte opdrachten:
 https://kansenradar.be/?bron=a1
@@ -67,7 +70,9 @@ Elke week publiceren Vlaamse overheden nieuwe opdrachten voor communicatie, mark
 
 Met Kansenradar monitoren wij alle publicaties, en jij krijgt elke maandag één mail met enkel wat relevant is voor een bureau zoals {naam}, kort samengevat. Wij monitoren, jij beslist.
 
-De voorbije weken waren dat onder andere de omgevingscommunicatie van Stad Hasselt, campagnes voor de Vlaamse Stichting Verkeerskunde en een nieuwe website voor VIB.
+Zo staat er nu bijvoorbeeld dit open:
+
+{voorbeeld}
 
 We starten binnenkort met 50 founding members. Inschrijven op de wachtlijst is gratis, en je krijgt meteen een voorbeeld met echte opdrachten:
 https://kansenradar.be/?bron=b1

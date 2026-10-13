@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import csv
 import email
+import html
 import imaplib
 import json
 import logging
@@ -45,6 +46,11 @@ HERE = Path(__file__).parent
 TEMPLATES = HERE / "templates.md"
 LIST_CSV = HERE / "state" / "outreach_list.csv"
 STATE_JSON = HERE / "state" / "send_state.json"
+EXAMPLES_JSON = HERE.parent / "mailer" / "sample_tenders.json"
+LOGO_URL = "https://kansenradar.be/assets/logo-mail.png"
+SITE_URL = "https://kansenradar.be"
+MIN_DAYS_LEFT = 7  # never show an example tender that closes within a week
+MONTHS = ("januari februari maart april mei juni juli augustus september oktober november december").split()
 
 FOLLOW_UP_DAYS = {2: 4, 3: 10}  # step -> days after step 1
 WARMUP_START, WARMUP_STEP, WARMUP_MAX = 10, 2, 40  # mails/day: 10, 12, 14, ... capped at 40
@@ -95,8 +101,93 @@ def clean_name(name: str) -> str:
     return name
 
 
-def render(t: Template, naam: str) -> Template:
-    return Template(t.subject.replace("{naam}", naam), t.body.replace("{naam}", naam))
+def pick_example(today: date, path: Path = EXAMPLES_JSON) -> dict:
+    """Best-scoring real tender that is still open for at least MIN_DAYS_LEFT days."""
+    rows = json.loads(path.read_text(encoding="utf-8"))
+    open_rows = [r for r in rows if (date.fromisoformat(r["deadline"]) - today).days >= MIN_DAYS_LEFT]
+    if not open_rows:
+        raise SystemExit(f"No example tender open for {MIN_DAYS_LEFT}+ days in {path}: refresh it first")
+    return max(open_rows, key=lambda r: (r["score"], r["deadline"]))
+
+
+def _nl_date(iso: str) -> str:
+    d = date.fromisoformat(iso)
+    return f"{d.day} {MONTHS[d.month - 1]} {d.year}"
+
+
+def _short_summary(text: str, limit: int = 220) -> str:
+    first = text.split(". ")[0].rstrip(".") + "."
+    return first if len(first) <= limit else first[: limit - 1].rsplit(" ", 1)[0] + "…"
+
+
+def example_text(ex: dict) -> str:
+    meta = f"{ex['authority']} · deadline {_nl_date(ex['deadline'])}"
+    if ex.get("budget_text"):
+        meta += f" · {ex['budget_text']}"
+    return f"{ex['title']}\n{meta}\n{_short_summary(ex['summary'])}\n{ex['url']}"
+
+
+def render(t: Template, naam: str, example: dict | None = None) -> Template:
+    body = t.body.replace("{naam}", naam)
+    if "{voorbeeld}" in body:
+        if example is None:
+            raise ValueError("template needs an example tender")
+        body = body.replace("{voorbeeld}", example_text(example))
+    return Template(t.subject.replace("{naam}", naam), body)
+
+
+def render_html(t: Template, naam: str, example: dict | None = None) -> str:
+    """Light HTML version: plain paragraphs, the example as a card, a small logo signature."""
+    paragraphs = []
+    for block in t.body.replace("{naam}", naam).strip().split("\n\n"):
+        if block.strip() == "{voorbeeld}" and example:
+            paragraphs.append(_example_card(example))
+        elif block.startswith("Groeten,") or block.startswith("Veel succes"):
+            paragraphs.append(_signature(block))
+        elif block.startswith("Geen interesse?"):
+            paragraphs.append(f'<p style="margin:24px 0 0;font-size:12px;color:#94A3B8;">{_inline(block)}</p>')
+        else:
+            paragraphs.append(f'<p style="margin:0 0 14px;">{_inline(block)}</p>')
+    return (
+        '<!DOCTYPE html><html lang="nl"><body style="margin:0;padding:0;">'
+        '<div style="max-width:560px;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;'
+        'font-size:15px;line-height:1.55;color:#1F2937;">' + "".join(paragraphs) + "</div></body></html>"
+    )
+
+
+def _inline(text: str) -> str:
+    out = html.escape(text).replace("\n", "<br>")
+    return re.sub(r"(https://[^\s<]+)", r'<a href="\1" style="color:#B7791F;">\1</a>', out)
+
+
+def _example_card(ex: dict) -> str:
+    meta = f"{html.escape(ex['authority'])} · deadline {_nl_date(ex['deadline'])}"
+    if ex.get("budget_text"):
+        meta += f" · {html.escape(ex['budget_text'])}"
+    return (
+        '<div style="margin:0 0 16px;padding:12px 16px;border-left:3px solid #F5A623;background:#FFF8EC;border-radius:4px;">'
+        f'<div style="font-weight:600;color:#1B2B4B;">{html.escape(ex["title"])}</div>'
+        f'<div style="font-size:13px;color:#64748B;margin:2px 0 6px;">{meta}</div>'
+        f'<div style="font-size:14px;">{html.escape(_short_summary(ex["summary"]))}</div>'
+        f'<div style="font-size:13px;margin-top:6px;"><a href="{html.escape(ex["url"])}" style="color:#B7791F;">Bekijk de publicatie →</a></div>'
+        "</div>"
+    )
+
+
+def _signature(block: str) -> str:
+    lines = block.split("\n")
+    greeting = "<br>".join(html.escape(line) for line in lines if not line.startswith("Kansenradar, een initiatief"))
+    if not any(line.startswith("Kansenradar, een initiatief") for line in lines):
+        return f'<p style="margin:0 0 14px;">{greeting}</p>'
+    return (
+        f'<p style="margin:0 0 10px;">{greeting}</p>'
+        '<table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 0 4px;"><tr>'
+        f'<td style="padding-right:10px;vertical-align:middle;"><img src="{LOGO_URL}" width="32" height="32" alt="Kansenradar" style="display:block;"></td>'
+        '<td style="vertical-align:middle;font-size:13px;line-height:1.4;color:#64748B;">'
+        '<strong style="color:#1B2B4B;font-size:14px;">Kansenradar</strong><br>'
+        f'Wij monitoren, jij beslist · <a href="{SITE_URL}" style="color:#B7791F;">kansenradar.be</a><br>'
+        'Een initiatief van Autom8ted</td></tr></table>'
+    )
 
 
 # ---------- planning ----------
@@ -224,7 +315,7 @@ def process_inbox(state: dict, cfg: dict) -> int:
 
 # ---------- sending ----------
 
-def build_message(cfg: dict, to: str, t: Template, step: int, thread_id: str | None) -> EmailMessage:
+def build_message(cfg: dict, to: str, t: Template, step: int, thread_id: str | None, html_body: str = "") -> EmailMessage:
     msg = EmailMessage()
     msg["From"] = f"{cfg['from_name']} <{cfg['user']}>"
     msg["To"] = to
@@ -238,23 +329,29 @@ def build_message(cfg: dict, to: str, t: Template, step: int, thread_id: str | N
         msg["In-Reply-To"] = thread_id
         msg["References"] = thread_id
     msg.set_content(t.body)
+    if html_body:
+        msg.add_alternative(html_body, subtype="html")
     return msg
 
 
 def send_plan(plan, templates, state, cfg, *, override_to: str | None = None, delay: bool = True) -> int:
     sent = 0
+    example = pick_example(date.today())
+    test_threads: dict[str, str] = {}
     with smtplib.SMTP_SSL(cfg["smtp_host"], 465) as smtp:
         smtp.login(cfg["user"], cfg["password"])
         for i, (addr, step, row) in enumerate(plan):
             wave = "A" if row.get("golf") == "A" else "B"
-            t = render(templates[f"{wave}{step}"], clean_name(row["naam"]))
+            template, naam = templates[f"{wave}{step}"], clean_name(row["naam"])
+            t = render(template, naam, example)
             rec = state["prospects"].get(addr)
-            thread_id = rec["sent"][0]["message_id"] if rec and rec["sent"] else None
-            msg = build_message(cfg, override_to or addr, t, step, thread_id)
+            thread_id = rec["sent"][0]["message_id"] if rec and rec["sent"] else test_threads.get(wave)
+            msg = build_message(cfg, override_to or addr, t, step, thread_id, render_html(template, naam, example))
             smtp.send_message(msg)
             sent += 1
             logger.info("Sent %s%d to %s", wave, step, override_to or addr)
             if override_to:
+                test_threads.setdefault(wave, msg["Message-ID"])
                 continue
             today = date.today().isoformat()
             rec = state["prospects"].setdefault(addr, {"status": "active", "sent": [], "row": row})
@@ -308,9 +405,10 @@ def main() -> None:
         rows = load_rows()
         plan = plan_today(rows, state, date.today())
         print(f"Today: {len(plan)} mails")
+        example = pick_example(date.today())
         for addr, step, row in plan[:5]:
             wave = "A" if row.get("golf") == "A" else "B"
-            t = render(templates[f"{wave}{step}"], clean_name(row["naam"]))
+            t = render(templates[f"{wave}{step}"], clean_name(row["naam"]), example)
             print(f"\n--- {wave}{step} -> {addr}\nOnderwerp: {t.subject}\n\n{t.body}")
         if len(plan) > 5:
             print(f"... and {len(plan) - 5} more")

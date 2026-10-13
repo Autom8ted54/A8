@@ -1,15 +1,20 @@
 """Tests for outreach.send: template parsing, warm-up and planning, inbound classification."""
 
+import json
 from datetime import date
 from email.message import EmailMessage
+
+import pytest
 
 from outreach.send import (
     classify_inbound,
     clean_name,
     daily_limit,
     load_templates,
+    pick_example,
     plan_today,
     render,
+    render_html,
 )
 
 MONDAY = date(2026, 11, 2)
@@ -31,10 +36,39 @@ def test_templates_parse_all_six_mails():
     assert t["B3"].subject == "Re: " + t["B1"].subject
 
 
-def test_render_fills_name_everywhere():
-    t = render(load_templates()["A1"], "Studio Zuid")
-    assert "{naam}" not in t.subject + t.body
-    assert "Studio Zuid" in t.subject
+EXAMPLE = {
+    "title": "Raamovereenkomst omgevingscommunicatie", "authority": "Stad Hasselt", "score": 9,
+    "budget_text": None, "deadline": "2026-11-20", "url": "https://ted.europa.eu/x",
+    "summary": "Stad Hasselt zoekt partners voor communicatie. Tweede zin.",
+}
+
+
+def test_render_fills_name_and_example_everywhere():
+    for key in ("A1", "B1"):
+        t = render(load_templates()[key], "Studio Zuid", EXAMPLE)
+        assert "{naam}" not in t.subject + t.body and "{voorbeeld}" not in t.body
+        assert "Studio Zuid" in t.subject
+        assert "Stad Hasselt · deadline 20 november 2026" in t.body
+        assert "Tweede zin" not in t.body
+
+
+def test_html_version_has_card_logo_and_links():
+    h = render_html(load_templates()["A1"], "Studio <Zuid>", EXAMPLE)
+    assert "Studio &lt;Zuid&gt;" in h
+    assert "logo-mail.png" in h and "border-left:3px solid #F5A623" in h
+    assert 'href="https://kansenradar.be/?bron=a1"' in h
+    assert "{voorbeeld}" not in h
+
+
+def test_pick_example_skips_tenders_closing_within_a_week(tmp_path):
+    f = tmp_path / "t.json"
+    f.write_text(json.dumps([
+        {**EXAMPLE, "score": 10, "deadline": "2026-11-05"},
+        {**EXAMPLE, "score": 8, "deadline": "2026-11-30"},
+    ]))
+    assert pick_example(MONDAY, f)["score"] == 8
+    with pytest.raises(SystemExit):
+        pick_example(date(2026, 12, 1), f)
 
 
 def test_clean_name():
