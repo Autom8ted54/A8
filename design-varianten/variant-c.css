@@ -1,0 +1,153 @@
+/* Variant C: Weerbericht. Friendly serif, sky hero with drifting clouds and a week forecast. */
+.variant-c {
+    --navy: #123A6B;
+    --amber: #FFC23D;
+    --amber-dark: #9A6A00;
+    --white: #FFFFFF;
+    --sky: #D8EAFB;
+    --slate: #4B5D75;
+    --font: 'Figtree', -apple-system, sans-serif;
+    background: var(--white);
+}
+
+.variant-c h1, .variant-c h2, .variant-c .section-title, .variant-c .stat-num, .variant-c .price-current, .variant-c .tagline-large {
+    font-family: 'Young Serif', Georgia, serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+}
+
+.variant-c .eyebrow { text-transform: none; letter-spacing: 0; font-size: 0.95rem; font-weight: 600; color: #2D6CB5; }
+
+.variant-c .site-header { background: var(--sky); }
+.variant-c .logo { color: var(--navy); }
+.variant-c .header-tag { color: var(--slate); }
+
+/* Hero */
+.variant-c .section-problem {
+    position: relative;
+    overflow: hidden;
+    background: var(--sky);
+    color: var(--navy);
+    padding: 3rem 0 4rem;
+}
+
+.variant-c .section-problem > .container { position: relative; z-index: 1; }
+.variant-c .section-problem h1 { color: var(--navy); font-size: 2.2rem; line-height: 1.15; max-width: 19ch; }
+.variant-c .positioning-line { color: var(--navy); border-left-color: var(--amber); }
+.variant-c .section-problem .lead { color: var(--slate); }
+
+.variant-c .stat { background: rgba(255, 255, 255, 0.75); border: 0; border-radius: 18px; }
+.variant-c .stat-num { color: var(--navy); }
+.variant-c .stat-label { color: var(--slate); }
+
+/* Forecast strip */
+.variant-c .kr-forecast {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin: 1.5rem 0 1.75rem;
+    max-width: 440px;
+}
+
+.variant-c .kr-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 4px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.45);
+    color: #7C8EA6;
+    font-size: 0.85rem;
+}
+
+.variant-c .kr-day b { font-weight: 600; text-transform: lowercase; }
+.variant-c .kr-day em { font-style: normal; font-size: 0.75rem; font-weight: 600; }
+
+.variant-c .kr-day--on {
+    background: var(--white);
+    color: var(--navy);
+    box-shadow: 0 6px 18px rgba(18, 58, 107, 0.15);
+}
+
+.variant-c .kr-ico {
+    width: 26px;
+    height: 16px;
+    border-radius: 10px;
+    background: #B9CDE3;
+}
+
+.variant-c .kr-ico--sun {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--amber);
+    box-shadow: 0 0 0 5px rgba(255, 194, 61, 0.3);
+    animation: kr-pulse 3s ease-in-out infinite;
+}
+
+@keyframes kr-pulse { 50% { box-shadow: 0 0 0 9px rgba(255, 194, 61, 0.15); } }
+
+/* Sky decoration */
+.variant-c .kr-sky { position: absolute; inset: 0; pointer-events: none; }
+
+.variant-c .kr-cloud {
+    position: absolute;
+    width: 180px;
+    height: 54px;
+    border-radius: 60px;
+    background: #FFFFFF;
+    opacity: 0.85;
+    animation: kr-drift 38s linear infinite;
+}
+
+.variant-c .kr-cloud::before, .variant-c .kr-cloud::after {
+    content: "";
+    position: absolute;
+    background: inherit;
+    border-radius: 50%;
+}
+
+.variant-c .kr-cloud::before { width: 80px; height: 80px; top: -40px; left: 28px; }
+.variant-c .kr-cloud::after { width: 60px; height: 60px; top: -28px; left: 92px; }
+
+.variant-c .kr-cloud--1 { top: 18%; left: -200px; }
+.variant-c .kr-cloud--2 { top: 62%; left: -200px; transform: scale(0.7); animation-duration: 52s; animation-delay: -20s; }
+.variant-c .kr-cloud--3 { top: 34%; left: -200px; transform: scale(0.55); animation-duration: 64s; animation-delay: -44s; opacity: 0.6; }
+
+@keyframes kr-drift { to { translate: calc(100vw + 400px) 0; } }
+
+.variant-c .kr-sun {
+    position: absolute;
+    top: -110px;
+    right: -90px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: var(--amber);
+    opacity: 0.9;
+}
+
+@media (min-width: 600px) {
+    .variant-c .section-problem { padding: 4.5rem 0 5rem; }
+    .variant-c .section-problem h1 { font-size: 2.9rem; }
+    .variant-c .kr-sun { top: -120px; right: max(-120px, calc(50% - 700px)); width: 280px; height: 280px; }
+}
+
+/* Body sections */
+.variant-c .solution-card { border-radius: 24px; border-color: var(--sky); background: #F4F9FE; }
+.variant-c .pricing-card { border-radius: 22px; }
+.variant-c .pricing-card--featured { border-color: var(--navy); }
+.variant-c .pricing-badge { background: var(--amber); color: var(--navy); }
+.variant-c .btn-primary { background: var(--navy); color: var(--white); border-radius: 999px; }
+.variant-c .btn-primary:hover { background: #1C4F8F; }
+.variant-c .section-scarcity { background: var(--navy); }
+.variant-c .site-footer { background: var(--navy); }
+
+@media (prefers-reduced-motion: reduce) {
+    .variant-c .kr-cloud, .variant-c .kr-ico--sun { animation: none; }
+}
+
+@media (max-width: 599px) {
+    .variant-c .section-problem h1 { font-size: 1.85rem; hyphens: auto; hyphenate-limit-chars: 14 6 6; }
+}

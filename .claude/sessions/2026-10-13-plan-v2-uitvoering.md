@@ -35,3 +35,9 @@ excl. btw · mix beloftes (regio/sector + menselijke check blijven, Filip ±15 m
 Alle voorbereiding klaar. Alles wacht nu op het antwoord van BOSA (e-Procurement-toegang).
 Volgende zodra BOSA antwoordt: scraper bouwen (stap 6 plan), voorbeeldmail vernieuwen (7), go golf A (9).
 Opvolgen BOSA rond 20 okt als er niets komt. In de wachttijd mogelijk: design-/fontrefresh (niet blokkerend).
+
+## Design-refresh (gestart 13 okt 10:51)
+- Backup: `backup/pre-design-refresh-2026-10-13/` + git-tag `pre-design-refresh-2026-10-13`
+- 3 varianten in `design-varianten/` (build.py genereert uit site/index.html; content identiek): A Maandagbrief (Literata, luchtpost-envelop + draaiend poststempel), B Radar (Bricolage Grotesque + Instrument Sans, radar met oplichtende opdrachten), C Weerbericht (Young Serif + Figtree, wolken + weekvoorspelling ma 07:00)
+- Bekijken: `python3 -m http.server 8766` in projectroot → localhost:8766/design-varianten/variant-a.html
+- Wacht op Filips keuze/mix. Daarna: uitwerken in site/ + voorwaarden + mails (digest, bedankmail, outreach-signatuur)
