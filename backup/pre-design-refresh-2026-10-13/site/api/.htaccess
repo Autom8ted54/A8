@@ -1,0 +1,4 @@
+# config.php bevat secrets: nooit rechtstreeks opvraagbaar
+<Files "config.php">
+    Require all denied
+</Files>
