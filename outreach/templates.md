@@ -1,6 +1,7 @@
 # Outreachmails Kansenradar (concept, ter goedkeuring)
 
-Afzender: Filip <OUTREACH_EMAIL> (kansenradar.eu) · Reply-To: hallo@kansenradar.be
+Afzender: Filip <OUTREACH_EMAIL> (kansenradar.eu), zonder aparte Reply-To: antwoorden komen in de outreachmailbox, zodat het script "stop" en antwoorden automatisch herkent.
+Verzenden: `uv run python -m outreach.send` (zie de uitleg bovenaan `outreach/send.py`).
 Platte tekst, geen opmaak of afbeeldingen (komt beter door spamfilters).
 Mail 2 en 3 gaan als antwoord in dezelfde conversatie en stoppen automatisch zodra iemand antwoordt.
 `{naam}` = bedrijfsnaam. De link bevat `?bron=…` zodat we zien welke mail werkt.
@@ -85,10 +86,13 @@ Dezelfde tekst als A2 en A3, met de links `?bron=b2` en `?bron=b3`.
 ## Standaardantwoorden (voor jou, om te kopiëren)
 
 **"Wat kost het?"**
-Founding members betalen de eerste 12 maanden €29 per maand, daarna €59. Maandelijks opzegbaar, geen jaarcontract. Op de wachtlijst betaal je niets: we contacteren je persoonlijk voor de lancering, en pas dan beslis je.
+Founding members betalen de eerste 12 maanden €29 per maand, daarna €59 (excl. btw). Maandelijks opzegbaar, geen jaarcontract. Alle voorwaarden: https://kansenradar.be/voorwaarden.html Op de wachtlijst betaal je niets: we contacteren je persoonlijk voor de lancering, en pas dan beslis je.
 
 **"Hoe werkt het precies?"**
 Wij volgen doorlopend de Belgische en Europese publicaties van overheidsopdrachten op. We filteren op opdrachten voor marketing- en communicatiebureaus en vatten elke opdracht kort samen: wat er gevraagd wordt, het budget als dat bekend is, en de deadline. Elke maandag krijg je één mail. Geen platform, geen login.
+
+**Factuurvraag (bij wie interesse toont: dit is het "harde ja" voor de beslistabel)**
+Fijn om te horen. Mag ik je de eerste factuur sturen zodra we starten? Dat is €29 per maand excl. btw, maandelijks opzegbaar, en het abonnement loopt pas vanaf je eerste digest. Een kort "ja" volstaat; ik neem dan contact op vóór de eerste maandag.
 
 **"Wanneer start het?"**
 We starten met de eerste founding members zodra de wachtlijst vol genoeg is. Wie op de lijst staat, contacteren we persoonlijk en hoort het als eerste.

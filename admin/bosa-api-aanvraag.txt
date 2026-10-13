@@ -1,0 +1,20 @@
+Aan: e.proc@publicprocurement.be
+Onderwerp: Aanvraag API-toegang e-Notification (publicaties raadplegen)
+
+Goedendag,
+
+Via Autom8ted (KBO 1037.472.507) bouwen we Kansenradar, een dienst die marketing- en communicatiebureaus in Vlaanderen wekelijks wijst op relevante overheidsopdrachten. Elke melding verwijst door naar de officiële publicatie op e-Notification, waar de bureaus zich registreren en indienen.
+
+Om de gepubliceerde aankondigingen geautomatiseerd te raadplegen, willen we graag officiële toegang tot een API of datafeed van e-Notification. Het gaat enkel om het lezen van publieke aankondigingen (titel, aanbestedende overheid, CPV-codes, budget indien vermeld, deadline, link naar de publicatie), ongeveer één keer per dag. We willen uw platform niet belasten met scraping van de website.
+
+Kunt u ons laten weten:
+1. of er een officiële API of datafeed bestaat voor het raadplegen van aankondigingen;
+2. hoe we een API-sleutel of toegang aanvragen, en welke voorwaarden daarbij gelden;
+3. of er technische documentatie of een testomgeving beschikbaar is.
+
+Alvast bedankt.
+
+Met vriendelijke groeten,
+Filip Pasmans
+Autom8ted · Kansenradar
+hallo@kansenradar.be

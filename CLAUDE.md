@@ -110,8 +110,11 @@ MIN_RELEVANCE_SCORE=6
 - Prijs- of frequentiewijziging ook doorvoeren in `outreach/templates.md` (A3 + standaardantwoorden) en `mailer/build_sample.py`
 - Beslistabel validatie: nooit automatisch stoppen of bijsturen — altijd eerst samen met Filip beslissen
 - Testinschrijvingen hebben source=test; uitsluiten uit cijfers
+- Bronnenclaim volgt de echte bronnen: zolang alleen TED draait, nergens "alle publieke aanbestedingen" beloven of doen alsof Belgische publicaties er al in zitten. Geen outreach vóór e-Procurement in de digest zit (beslist 13 okt 2026)
 
 ## Pricing
+Alle prijzen excl. btw (Autom8ted, BTW BE 1037.472.507). Voorwaarden: `site/voorwaarden.html`.
+
 | Plan | Prijs | Doelgroep |
 |------|-------|-----------|
 | Founding Member | €29/mnd | Eerste 50 klanten, 12 maanden (site toont €59 doorstreept) |
