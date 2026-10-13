@@ -14,12 +14,13 @@ Werkwijze: eerst alles wat Claude zelf kan, dan Filips vragen/stappen ÉÉN VOOR
 
 - [x] Outreach-verzendscript `outreach/send.py` (+ 13 tests, alle 58 tests groen): teksten uit templates.md, opwarmen 10→40/dag (+2/dag), opvolging dag 4/10 in dezelfde thread, stop/antwoord/bounce via IMAP (ook Outlook-quotes), alleen weekdagen, state na elke mail. SMTP- en IMAP-login op kansenradar.eu getest, NIETS verstuurd. Geen Reply-To meer: antwoorden komen in de outreachmailbox (nodig voor stopdetectie)
 
+- [x] Voorwaarden + FAQ goedgekeurd door Filip; LIVE gezet 13 okt 09:5x (deploy.sh door Filip zelf: auto-mode classifier blokkeert deploy door Claude). Live check desktop + mobiel ok
+
 ## Bezig / volgt (Claude)
-- [ ] Na goedkeuring: deploy + live check
 - [ ] e-Procurement-scraper zodra toegang er is (+ events onder "logistiek" via zoekwoorden: belofte in FAQ)
 
 ## Wachtrij vragen/stappen voor Filip (één per één, in deze volgorde)
-1. Voorwaardenpagina + FAQ goedkeuren (bevatten beleid: doorsturen mag, PO op factuur, opzeggen einde maand, geen terugbetaling lopende maand, aansprakelijkheid beperkt tot 12 mnd) → daarna deploy
+1. ~~Voorwaarden + FAQ goedkeuren~~ ✓
 2. BOSA-mail versturen (tekst in `admin/bosa-api-aanvraag.txt`, via pbcopy) vanaf hallo@kansenradar.be
 3. Testmails: Filip geeft het adres waar 6 testmails (A1-3, B1-3) heen mogen → `uv run python -m outreach.send --test ADRES`; daarna één naar mail-tester.com
 4. Outreachmailbox kansenradar.eu laten doorsturen (met kopie bewaren) naar Filips gewone inbox, zodat hij antwoorden ziet
