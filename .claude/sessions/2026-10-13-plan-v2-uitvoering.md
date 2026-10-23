@@ -24,8 +24,12 @@ Werkwijze: eerst alles wat Claude zelf kan, dan Filips vragen/stappen ÉÉN VOOR
 ## Wachtrij vragen/stappen voor Filip (één per één, in deze volgorde)
 1. ~~Voorwaarden + FAQ goedkeuren~~ ✓
 2. ~~BOSA-mail versturen~~ ✓ verstuurd 13 okt 10:35 naar e.proc@publicprocurement.be. Wachten op antwoord; geen reactie tegen ±20 okt → opvolgen (helpdesk ook telefonisch 02 740 80 00)
+   - 14 okt: automatisch antwoord: e.proc@ wordt NIET gelezen. Mail telt dus niet. Opnieuw via contactformulier (helpcentrum) of telefoon 02 740 80 00 (werkdagen 8u30–12u, 13u15–16u30). Tekst = admin/bosa-api-aanvraag.txt zonder aanhef 'Aan/Onderwerp'
 3. ~~Testmails + mail-tester~~ ✓ — 6 verstuurd 13 okt 10:36 naar Filips Gmail (state onaangeroerd) — wacht op zijn bevinding (inbox/spam, opmaak). Daarna mail-tester. Origineel: Filip geeft het adres waar 6 testmails (A1-3, B1-3) heen mogen → `uv run python -m outreach.send --test ADRES`; daarna één naar mail-tester.com
 4. ~~Outreachmailbox in Mail op de Mac~~ ✓ 13 okt 10:48 (via .mobileconfig-profiel, wachtwoord door Filip zelf; verwijderen = profiel weg in Systeeminstellingen)
+   - 23 okt: BOSA antwoordde (ticket CS0226743, Maxence Fatrez): Media-account (enkel publieke data lezen). Verstuurd 23 okt 16:39 vanaf hallo@kansenradar.be: ingevuld onboardingformulier (`~/Downloads/eProc Technical Connection Request_Media - Autom8ted.docx`; auth-mail api@kansenradar.be → forward naar Gmail) + ondertekende FSB-gebruiksovereenkomst (`GO Webservices DIS v6.3.2 NL - ingevuld.pdf` + handtekening). FSB technical request-PDF bewust NIET gestuurd (vraagt vaste IP's; GitHub Actions heeft die niet → probleem als BOSA dat later toch eist)
+   - OPEN vóór eerste digest met e-Procurement-data: schriftelijke bevestiging BOSA vragen dat samenvatten + doorsturen aan betalende klanten mag (AV art. 8 IP + art. 11 vertrouwelijkheid lezen letterlijk anders) en dat we "e-Procurement" als bron mogen noemen (art. 6). Contactgegevens van aanbesteders niet overnemen in digest, enkel link
+   - Gmail "verzenden als" hallo@kansenradar.be ingesteld (SMTP mail.kansenradar.be:587 TLS; mailbox hallo@ aangemaakt naast de forwarder; mx1.mijn.host = enkel inkomend)
 5. Later: go voor golf A zodra e-Procurement in de digest zit
 
 ## Beslissingen 13 okt (zie plan)

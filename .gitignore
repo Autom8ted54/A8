@@ -42,3 +42,5 @@ out/
 site/api/config.php
 # Outreach-status (bevat prospectdata)
 outreach/state/
+# Getekende/ingevulde admindocumenten (BOSA e.d.)
+/*.pdf
