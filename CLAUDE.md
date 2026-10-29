@@ -51,7 +51,8 @@ kansenradar/
 │       └── daily-digest.yml     ← GitHub Actions cron (weekdagen 06:00 UTC)
 ├── scraper/                     ← Python data ingestion
 │   ├── base.py                  ← Source-interface
-│   └── ted_europa.py            ← TED API v3 (e_notification.py volgt in fase 2b)
+│   ├── ted_europa.py            ← TED API v3
+│   └── e_procurement.py         ← BOSA eProcurementSea-API (EPROC_ENV=INT|PR)
 ├── processor/                   ← AI verwerking
 │   ├── cpv_filter.py            ← prefix-match, geen AI
 │   ├── prescreen.py             ← Haiku ja/nee
@@ -59,6 +60,7 @@ kansenradar/
 ├── database/                    ← Supabase client + models
 │   ├── client.py
 │   └── models.py
+├── ops/                         ← tijdelijke Supabase-keepalive (LaunchAgent), weg zodra digest in Actions draait
 ├── tests/                       ← pytest (uv run pytest)
 └── mailer/                      ← e-mail digest pipeline
     ├── run.py                   ← orchestratie volledige pipeline (--dry-run)
@@ -76,7 +78,8 @@ SUPABASE_ANON_KEY=            # Publieke sleutel (alleen voor client-side)
 SUPABASE_SERVICE_KEY=         # Service role (server-side only, bypasses RLS)
 RESEND_API_KEY=               # E-mail bezorging
 FROM_EMAIL=digest@kansenradar.be
-E_NOTIFICATION_API_KEY=       # e-Procurement API
+EPROC_ENV=                    # INT | PR (leeg = e-Procurement overgeslagen)
+EPROC_<ENV>_TOKEN_URL=        # + EPROC_<ENV>_CLIENT_ID / _CLIENT_SECRET (BOSA FSB)
 DIGEST_SEND_TIME=07:00        # Dagelijkse verzendtijd
 MAX_TENDERS_PER_DIGEST=5
 MIN_RELEVANCE_SCORE=6
