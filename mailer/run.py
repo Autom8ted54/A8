@@ -1,6 +1,6 @@
 """Orchestratie van de volledige dagelijkse pijplijn:
 
-scrape (TED) -> upsert -> CPV-filter -> Haiku pre-screen -> Sonnet
+scrape (TED + e-Procurement) -> upsert -> CPV-filter -> Haiku pre-screen -> Sonnet
 samenvatting/score -> digest-selectie -> render -> verzenden (Resend).
 
 Gebruik --dry-run om te scrapen/verwerken en de HTML te renderen naar
@@ -20,10 +20,11 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from database.client import get_client
-from database.models import Subscriber, Tender
+from database.models import RawTender, Subscriber, Tender
 from mailer.digest_builder import build, format_date_nl
 from mailer.sender import send
 from processor import cpv_filter, prescreen, summarizer
+from scraper.e_procurement import EProcurementSource, ted_number_key
 from scraper.ted_europa import TedSource
 
 logger = logging.getLogger(__name__)
@@ -40,17 +41,56 @@ def _env_int(name: str, default: int) -> int:
     return int(value) if value else default
 
 
-def scrape_and_store() -> None:
+def drop_ted_duplicates(ted: list[RawTender], eproc: list[RawTender]) -> list[RawTender]:
+    """Laat TED-notices vallen die e-Procurement al heeft (Belgische publicaties
+    gaan via e-Procurement naar TED). De e-Procurement-versie wint: NL-titel,
+    deadline en link naar het Belgische platform."""
+    known = {
+        key
+        for t in eproc
+        for ref in t.raw.get("publicationReferenceNumbersTED") or []
+        if (key := ted_number_key(ref))
+    }
+    kept = [t for t in ted if ted_number_key(t.source_ref) not in known]
+    if len(kept) < len(ted):
+        logger.info("Dedup: %d TED-notices overgeslagen (al via e-Procurement)", len(ted) - len(kept))
+    return kept
+
+
+def scrape_and_store() -> list[str]:
+    """Scrape alle bronnen en sla op. Geeft de namen van gefaalde bronnen terug,
+    zodat één kapotte bron de digest niet tegenhoudt maar wel een alert geeft."""
     db = get_client()
-    raw_tenders = TedSource().fetch_recent()
+    failed: list[str] = []
+
+    eproc_tenders: list[RawTender] = []
+    try:
+        eproc = EProcurementSource.from_env()
+        if eproc is None:
+            logger.info("e-Procurement niet geconfigureerd (EPROC_ENV leeg) — overgeslagen")
+        else:
+            eproc_tenders = eproc.fetch_recent()
+    except Exception:
+        logger.exception("e-Procurement-scraper gefaald")
+        failed.append("e-procurement")
+
+    ted_tenders: list[RawTender] = []
+    try:
+        ted_tenders = TedSource().fetch_recent()
+    except Exception:
+        logger.exception("TED-scraper gefaald")
+        failed.append("ted")
+
+    raw_tenders = eproc_tenders + drop_ted_duplicates(ted_tenders, eproc_tenders)
     if not raw_tenders:
-        logger.info("Geen nieuwe TED-tenders opgehaald")
-        return
+        logger.info("Geen nieuwe tenders opgehaald")
+        return failed
     rows = [t.to_row() for t in raw_tenders]
-    # ignore_duplicates: bestaande rijen niet overschrijven — de lookback van 3
-    # dagen zou anders AI-velden (budget_text) en verwerkingsstatus wissen.
+    # ignore_duplicates: bestaande rijen niet overschrijven — de lookback zou
+    # anders AI-velden (budget_text) en verwerkingsstatus wissen.
     db.table("tenders").upsert(rows, on_conflict="source_ref", ignore_duplicates=True).execute()
     logger.info("Scraper: %d tenders opgeslagen (dedup op source_ref)", len(rows))
+    return failed
 
 
 def select_digest_candidates() -> list[Tender]:
@@ -85,7 +125,14 @@ def mark_sent(tender_ids: list[str]) -> None:
 
 
 def run(dry_run: bool) -> None:
-    scrape_and_store()
+    failed_sources = scrape_and_store()
+    _process_and_send(dry_run)
+    if failed_sources:
+        # Pas na de digest falen, zodat de workflow-alert afgaat
+        raise RuntimeError(f"Bron(nen) gefaald: {', '.join(failed_sources)}")
+
+
+def _process_and_send(dry_run: bool) -> None:
     cpv_filter.run()
     prescreen.run()
     summarizer.run()

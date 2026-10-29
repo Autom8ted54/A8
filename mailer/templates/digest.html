@@ -30,7 +30,7 @@
                   </td>
                 </tr>
               </table>
-              <p style="margin:12px 0 0;font-size:13px;color:#B8C4D4;">Goedemorgen — {{ tenders|length }} opdracht{{ 'en' if tenders|length != 1 else '' }} die vandaag jouw aandacht verdien{{ 't' if tenders|length == 1 else 'en' }}.</p>
+              <p style="margin:12px 0 0;font-size:13px;color:#B8C4D4;">Goedemorgen — {{ tenders|length }} opdracht{{ 'en' if tenders|length != 1 else '' }} die deze week jouw aandacht verdien{{ 't' if tenders|length == 1 else 'en' }}.</p>
             </td>
           </tr>
 
@@ -100,7 +100,7 @@
                   <td>
                     <p style="margin:0;font-size:12px;color:#94A3B8;">
                       Je ontvangt deze digest als founding member van Kansenradar.<br>
-                      Bronnen: e-Procurement BE &amp; TED EU · Gefilterd op CPV-codes marketing &amp; communicatie
+                      Bron{{ 'nen' if ' & ' in sources else '' }}: {{ sources }} · Gefilterd op CPV-codes marketing &amp; communicatie
                     </p>
                   </td>
                   <td align="right" style="white-space:nowrap;padding-left:16px;">

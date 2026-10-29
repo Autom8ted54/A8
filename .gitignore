@@ -44,3 +44,6 @@ site/api/config.php
 outreach/state/
 # Getekende/ingevulde admindocumenten (BOSA e.d.)
 /*.pdf
+
+# BOSA credentials document (secrets)
+Kansenradar - FSB credentials.docx

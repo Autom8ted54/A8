@@ -30,6 +30,11 @@ jobs:
           FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
           MAX_TENDERS_PER_DIGEST: ${{ secrets.MAX_TENDERS_PER_DIGEST }}
           MIN_RELEVANCE_SCORE: ${{ secrets.MIN_RELEVANCE_SCORE }}
+          # Leeg = e-Procurement overgeslagen; PR zodra BOSA productie activeert
+          EPROC_ENV: ${{ secrets.EPROC_ENV }}
+          EPROC_PR_TOKEN_URL: ${{ secrets.EPROC_PR_TOKEN_URL }}
+          EPROC_PR_CLIENT_ID: ${{ secrets.EPROC_PR_CLIENT_ID }}
+          EPROC_PR_CLIENT_SECRET: ${{ secrets.EPROC_PR_CLIENT_SECRET }}
         run: uv run python -m mailer.run
 
       - name: Alert on failure

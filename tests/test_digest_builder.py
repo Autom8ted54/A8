@@ -74,3 +74,17 @@ def test_build_singular_plural_intro():
     assert "1 opdracht die" in single
     plural = build([_tender(), _tender(id="2", source_ref="B")], TODAY, unsubscribe_url="#")
     assert "2 opdrachten" in plural
+
+
+def test_ted_title_prefix_is_stripped():
+    from mailer.digest_builder import clean_title
+
+    t = _tender(source="ted", title="België – Reclame- en marketingdiensten – Campagne X")
+    assert clean_title(t) == "Campagne X"
+    assert clean_title(_tender(source="e-procurement", title="A – B – C")) == "A – B – C"
+
+
+def test_sources_line_only_lists_present_sources():
+    html = build([_tender(source="ted")], TODAY, unsubscribe_url="#")
+    assert "Bron: TED EU" in html
+    assert "e-Procurement" not in html

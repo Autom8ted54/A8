@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Daily Supabase keep-alive (temporary, see ops/supabase_keepalive.sh).
+     Install: cp to ~/Library/LaunchAgents and launchctl bootstrap. -->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>be.kansenradar.supabase-keepalive</string>
+  <key>ProgramArguments</key>
+  <array><string>/Users/NomadFilip/kansenradar/ops/supabase_keepalive.sh</string></array>
+  <key>StartCalendarInterval</key>
+  <dict><key>Hour</key><integer>10</integer><key>Minute</key><integer>0</integer></dict>
+  <key>RunAtLoad</key><true/>
+  <key>StandardOutPath</key><string>/Users/NomadFilip/Library/Logs/kansenradar-keepalive.log</string>
+  <key>StandardErrorPath</key><string>/Users/NomadFilip/Library/Logs/kansenradar-keepalive.log</string>
+</dict>
+</plist>

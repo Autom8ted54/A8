@@ -41,7 +41,7 @@ REPLACEMENTS = [
     ("<!-- Body -->", INTRO.strip() + "\n\n          <!-- Body -->"),
     ("Je ontvangt deze digest als founding member van Kansenradar.",
      "Je ontvangt deze mail omdat je je inschreef op de wachtlijst van Kansenradar."),
-    ("Bronnen: e-Procurement BE &amp; TED EU",
+    ("Bron: TED EU",
      "Bron van deze voorbeelden: TED EU"),
 ]
 

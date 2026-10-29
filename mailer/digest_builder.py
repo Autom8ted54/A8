@@ -47,6 +47,24 @@ def _deadline_color(deadline: date | None, today: date) -> str:
     return DEADLINE_COLORS["later"]
 
 
+SOURCE_LABELS = {"e-procurement": "e-Procurement BE", "ted": "TED EU"}
+
+
+def clean_title(t: Tender) -> str:
+    """TED-titels beginnen met 'Land – CPV-omschrijving – '; dat herhaalt enkel
+    wat de categorie en aanbesteder al zeggen."""
+    parts = t.title.split(" – ", 2)
+    if t.source == "ted" and len(parts) == 3 and parts[2].strip():
+        return parts[2].strip()
+    return t.title
+
+
+def sources_line(tenders: list[Tender]) -> str:
+    """Enkel de bronnen die echt in deze digest zitten (geen bronnenclaim die niet klopt)."""
+    present = {t.source for t in tenders}
+    return " & ".join(label for key, label in SOURCE_LABELS.items() if key in present)
+
+
 def _tender_context(t: Tender, today: date) -> dict:
     bg, fg = CATEGORY_COLORS.get(t.category, DEFAULT_CATEGORY_COLOR)
     return {
@@ -54,7 +72,7 @@ def _tender_context(t: Tender, today: date) -> dict:
         "category_bg": bg,
         "category_fg": fg,
         "score": t.score,
-        "title": t.title,
+        "title": clean_title(t),
         "authority": t.authority or "",
         "summary": t.summary or "",
         "budget_text": t.budget_text,
@@ -71,5 +89,6 @@ def build(tenders: list[Tender], today: date, unsubscribe_url: str) -> str:
     return template.render(
         date_nl=format_date_nl(today),
         tenders=[_tender_context(t, today) for t in tenders],
+        sources=sources_line(tenders),
         unsubscribe_url=unsubscribe_url,
     )

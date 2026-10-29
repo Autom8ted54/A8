@@ -82,8 +82,22 @@ def summarize(client: Anthropic, title: str, authority: str | None, description:
     raise RuntimeError("Sonnet gaf geen tool_use-antwoord terug")
 
 
+def _eproc_text(values: list | None) -> str:
+    """e-Procurement: lijst van {"language": "NL", "text": ...}; NL eerst."""
+    by_lang = {v.get("language"): v.get("text") for v in values or [] if isinstance(v, dict) and v.get("text")}
+    for lang in ("NL", "EN", "FR"):
+        if by_lang.get(lang):
+            return by_lang[lang]
+    return next(iter(by_lang.values()), "")
+
+
 def extract_description(raw: dict) -> str:
-    """Pak een leesbare omschrijving uit de ruwe TED-payload (meertalig veld)."""
+    """Pak een leesbare omschrijving uit de ruwe payload (TED of e-Procurement)."""
+    if "dossier" in raw:
+        parts = [_eproc_text((raw.get("dossier") or {}).get("descriptions"))]
+        parts += [_eproc_text(lot.get("descriptions")) for lot in raw.get("lots") or []]
+        # Lot-omschrijving is vaak een kopie van het dossier
+        return "\n\n".join(dict.fromkeys(p for p in parts if p))
     for field_name in ("description-proc", "description-lot"):
         value = raw.get(field_name)
         if not value:
