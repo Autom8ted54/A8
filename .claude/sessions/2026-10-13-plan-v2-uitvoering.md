@@ -19,7 +19,7 @@ Werkwijze: eerst alles wat Claude zelf kan, dan Filips vragen/stappen ÉÉN VOOR
 - [x] Test 1 (13 okt 10:36): platte tekst landt in Gmail Primair. Filip vond hem saai → keuze 'Beide': echte openstaande opdracht in mail 1 (auto uit mailer/sample_tenders.json, ≥7 dagen open, anders weigert script) + lichte HTML (kaartje, logo-signatuur `site/assets/logo-mail.png`). Logo gedeployed; test 2 (10:42): Gmail Primair, Filip: 'ziet er goed uit' ✓. mail-tester (13 okt 10:44): 9.5/10 (SPF/DKIM/DMARC pass; enige aftrek 0.5 voor kleine HTML met afbeelding) ✓
 
 ## Bezig / volgt (Claude)
-- [ ] e-Procurement-scraper zodra toegang er is (+ events onder "logistiek" via zoekwoorden: belofte in FAQ)
+- [x] e-Procurement-scraper (29 okt, getest op INT) + events via zoekwoorden (`processor/cpv_filter.py` EVENT_KEYWORDS). Precisie nog meten op PR-data. "Twijfelgevallen kijkt een mens na" (FAQ) nog niet gebouwd.
 
 ## Wachtrij vragen/stappen voor Filip (één per één, in deze volgorde)
 1. ~~Voorwaarden + FAQ goedkeuren~~ ✓

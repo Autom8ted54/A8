@@ -9,7 +9,8 @@ INT-omgeving (2026-10-29):
 - Onbekende queryparameters worden stil genegeerd -> enkel geteste filters
   gebruiken: publicationDateFrom/publicationDateTo (YYYY-MM-DD).
 - cpvCodes matcht enkel exacte codes (79340000 vindt geen 79341000), dus we
-  halen alle recente publicaties op en filteren lokaal op CPV-prefix.
+  halen alle recente publicaties op en filteren lokaal op CPV-prefix en
+  event-zoekwoorden (events die als "logistiek" e.d. gepubliceerd worden).
 - Geen deadline-veld voor alle types: oproepen tot inschrijving (eForms
   subtype 7-24, E3) hebben `vaultSubmissionDeadline`; gunningen (25-37, E4),
   wijzigingen (38-40) en vooraankondigingen (1-6) niet -> die slaan we over.
@@ -31,7 +32,7 @@ from datetime import date, datetime, timedelta
 import requests
 
 from database.models import RawTender
-from processor.cpv_filter import matches as cpv_matches
+from processor.cpv_filter import is_relevant
 from scraper.base import Source
 
 logger = logging.getLogger(__name__)
@@ -183,7 +184,12 @@ class EProcurementSource(Source):
         tenders = [
             self._to_raw_tender(p)
             for p in publications
-            if p.get("noticeSubType") in CALL_SUBTYPES and cpv_matches(self._cpv_codes(p))
+            if p.get("noticeSubType") in CALL_SUBTYPES
+            and is_relevant(
+                self._cpv_codes(p),
+                _pick_lang((p.get("dossier") or {}).get("titles")),
+                _pick_lang((p.get("dossier") or {}).get("descriptions")),
+            )
         ]
         logger.info(
             "e-Procurement: %d relevante oproepen uit %d publicaties (laatste %d dagen)",
