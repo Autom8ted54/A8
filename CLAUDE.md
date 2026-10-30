@@ -48,7 +48,8 @@ kansenradar/
 ├── outreach/                    ← prospectlijst (state/ = gitignored) + templates.md
 ├── .github/
 │   └── workflows/
-│       └── daily-digest.yml     ← GitHub Actions cron (weekdagen 06:00 UTC)
+│       ├── daily-digest.yml     ← GitHub Actions cron (maandag 06:00 UTC)
+│       └── supabase-keepalive.yml ← dagelijkse ping, voorkomt pauze free tier
 ├── scraper/                     ← Python data ingestion
 │   ├── base.py                  ← Source-interface
 │   ├── ted_europa.py            ← TED API v3
@@ -60,7 +61,6 @@ kansenradar/
 ├── database/                    ← Supabase client + models
 │   ├── client.py
 │   └── models.py
-├── ops/                         ← tijdelijke Supabase-keepalive (LaunchAgent), weg zodra digest in Actions draait
 ├── tests/                       ← pytest (uv run pytest)
 └── mailer/                      ← e-mail digest pipeline
     ├── run.py                   ← orchestratie volledige pipeline (--dry-run)
