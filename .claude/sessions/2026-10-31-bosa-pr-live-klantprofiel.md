@@ -12,7 +12,7 @@
 - Buitenlandse opdrachten: keuze laten aan de klant (profielvoorkeur); standaard = plaats van uitvoering BE (TED-filter `place-of-performance IN (BEL)`).
 
 ## Plan klantprofiel (later, wanneer er echte inschrijvingen zijn)
-Per klant voorkeuren: categorie (Marketing/Communicatie/Events/PR/Webdesign, staat al in `tenders.category`), regio (NUTS), minimumscore, en schakelaar "ook Belgische aanbesteders met uitvoering in het buitenland".
+Per klant voorkeuren: taal (Franstalige/anderstalige opdrachten aan/uit; `tenders.language` staat er al), categorie (Marketing/Communicatie/Events/PR/Webdesign, staat al in `tenders.category`), regio (NUTS), minimumscore, en schakelaar "ook Belgische aanbesteders met uitvoering in het buitenland".
 Voorbereiding nu: bij opdrachten opslaan of aanbesteder Belgisch is én of uitvoering in BE ligt (nog niet gebouwd). Wachtlijstformulier vraagt nog niet wat een bureau doet.
 
 ## Open
