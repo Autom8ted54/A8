@@ -36,6 +36,14 @@ SUMMARIZE_TOOL = {
                     "een andere taal is, zonder voorvoegsel 'Land – CPV-omschrijving –'. Leeg laten als de titel al Nederlands is."
                 ),
             },
+            "language": {
+                "type": "string",
+                "enum": ["nl", "fr", "en", "de", "andere"],
+                "description": (
+                    "Taal van de opdracht, en dus waarschijnlijk van de offerte. Bij meertalige "
+                    "publicaties de taal van de aanbesteder (Waalse overheid: fr, Vlaamse: nl)."
+                ),
+            },
             "summary_nl": {
                 "type": "string",
                 "description": (
@@ -61,7 +69,7 @@ SUMMARIZE_TOOL = {
                 ),
             },
         },
-        "required": ["category", "summary_nl", "score"],
+        "required": ["category", "language", "summary_nl", "score"],
     },
 }
 
@@ -149,6 +157,7 @@ def run() -> int:
             {
                 "category": data["category"],
                 "title_nl": data.get("title_nl") or None,
+                "language": data.get("language"),
                 "summary": data["summary_nl"],
                 "budget_text": data.get("budget_text") or None,
                 "score": data["score"],

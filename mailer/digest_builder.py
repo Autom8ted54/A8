@@ -70,6 +70,14 @@ def sources_line(tenders: list[Tender]) -> str:
     return " & ".join(label for key, label in SOURCE_LABELS.items() if key in present)
 
 
+LANGUAGE_NOTES = {
+    "fr": "Opdracht in het Frans: de offerte moet ook in het Frans.",
+    "en": "Opdracht in het Engels: de offerte moet ook in het Engels.",
+    "de": "Opdracht in het Duits: de offerte moet ook in het Duits.",
+    "andere": "Opdracht in een andere taal dan het Nederlands.",
+}
+
+
 def _tender_context(t: Tender, today: date) -> dict:
     bg, fg = CATEGORY_COLORS.get(t.category, DEFAULT_CATEGORY_COLOR)
     return {
@@ -80,6 +88,7 @@ def _tender_context(t: Tender, today: date) -> dict:
         "title": clean_title(t),
         "authority": t.authority or "",
         "summary": t.summary or "",
+        "language_note": LANGUAGE_NOTES.get(t.language or ""),
         "budget_text": t.budget_text,
         "deadline_str": format_date_nl(t.deadline) if t.deadline else None,
         "deadline_color": _deadline_color(t.deadline, today),

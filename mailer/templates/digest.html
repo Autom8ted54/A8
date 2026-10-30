@@ -55,14 +55,15 @@
                     </table>
                     <h2 style="margin:10px 0 4px;font-family:'Bricolage Grotesque','Instrument Sans',Arial,sans-serif;font-size:17px;font-weight:700;color:#0E2340;line-height:1.3;">{{ t.title }}</h2>
                     <p style="margin:0 0 12px;font-size:13px;color:#64748B;">{{ t.authority }}</p>
+                    {% if t.language_note %}<p style="margin:0 0 12px;"><span style="display:inline-block;background-color:#E8EEF7;color:#0E2340;font-size:12px;font-weight:600;padding:4px 8px;border-radius:4px;">{{ t.language_note }}</span></p>{% endif %}
                     <p style="margin:0 0 16px;font-size:14px;color:#374151;line-height:1.6;">{{ t.summary }}</p>
+                    {% if t.budget_text %}<p style="margin:0 0 6px;font-size:13px;color:#64748B;">Budget: <strong style="color:#0E2340;">{{ t.budget_text }}</strong></p>{% endif %}
                     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                       <tr>
                         <td style="font-size:13px;color:#64748B;">
-                          {% if t.budget_text %}<span style="margin-right:20px;">Budget: <strong style="color:#0E2340;">{{ t.budget_text }}</strong></span>{% endif %}
                           {% if t.deadline_str %}<span>Deadline: <strong style="color:{{ t.deadline_color }};">{{ t.deadline_str }}</strong></span>{% endif %}
                         </td>
-                        <td align="right">
+                        <td align="right" style="white-space:nowrap;padding-left:12px;">
                           {% if t.url %}<a href="{{ t.url }}" style="font-size:13px;font-weight:600;color:#B45309;text-decoration:none;">Bekijk bestek →</a>{% endif %}
                         </td>
                       </tr>

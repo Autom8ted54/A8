@@ -74,6 +74,7 @@ class Tender:
     processed_at: datetime | None
     sent_in_digest_at: datetime | None
     title_nl: str | None = None
+    language: str | None = None
 
     @classmethod
     def from_row(cls, row: dict[str, Any]) -> "Tender":
@@ -96,6 +97,7 @@ class Tender:
             processed_at=_parse_datetime(row.get("processed_at")),
             sent_in_digest_at=_parse_datetime(row.get("sent_in_digest_at")),
             title_nl=row.get("title_nl"),
+            language=row.get("language"),
         )
 
 
