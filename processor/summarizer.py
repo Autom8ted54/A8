@@ -29,6 +29,13 @@ SUMMARIZE_TOOL = {
                 "enum": CATEGORIES,
                 "description": "De categorie die het best bij deze opdracht past.",
             },
+            "title_nl": {
+                "type": "string",
+                "description": (
+                    "Nederlandse vertaling van de titel als de originele titel Frans, Engels of "
+                    "een andere taal is, zonder voorvoegsel 'Land – CPV-omschrijving –'. Leeg laten als de titel al Nederlands is."
+                ),
+            },
             "summary_nl": {
                 "type": "string",
                 "description": (
@@ -141,6 +148,7 @@ def run() -> int:
         db.table("tenders").update(
             {
                 "category": data["category"],
+                "title_nl": data.get("title_nl") or None,
                 "summary": data["summary_nl"],
                 "budget_text": data.get("budget_text") or None,
                 "score": data["score"],
