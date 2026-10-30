@@ -6,6 +6,11 @@ samenvatting/score -> digest-selectie -> render -> verzenden (Resend).
 Gebruik --dry-run om te scrapen/verwerken en de HTML te renderen naar
 out/digest_preview.html zonder te verzenden of tenders als verstuurd te
 markeren.
+
+Review-flow (zie workflow): --preview mailt zondag een voorbeeld naar Filip,
+--send verstuurt maandag wat er klaarstaat (zonder opnieuw te scrapen), tenzij
+DIGEST_HOLD=true. DIGEST_EXCLUDE (komma-gescheiden source_refs) houdt opdrachten
+uit de digest.
 """
 
 from __future__ import annotations
@@ -13,6 +18,7 @@ from __future__ import annotations
 import argparse
 import logging
 import os
+import re
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -99,6 +105,9 @@ def select_digest_candidates() -> list[Tender]:
     max_count = _env_int("MAX_TENDERS_PER_DIGEST", 5)
     today_iso = datetime.now(timezone.utc).date().isoformat()
 
+    excluded = _excluded_refs()
+
+    # Ruimer ophalen en in Python filteren, zodat uitgesloten opdrachten opschuiven
     result = (
         db.table("tenders")
         .select("*")
@@ -106,10 +115,16 @@ def select_digest_candidates() -> list[Tender]:
         .is_("sent_in_digest_at", "null")
         .or_(f"deadline.is.null,deadline.gte.{today_iso}")
         .order("score", desc=True)
-        .limit(max_count)
+        .limit(max_count + len(excluded))
         .execute()
     )
-    return [Tender.from_row(row) for row in (result.data or [])]
+    tenders = [Tender.from_row(row) for row in (result.data or [])]
+    return [t for t in tenders if t.source_ref not in excluded][:max_count]
+
+
+def _excluded_refs() -> set[str]:
+    raw = os.environ.get("DIGEST_EXCLUDE", "")
+    return {ref.strip() for ref in raw.split(",") if ref.strip()}
 
 
 def get_active_subscribers() -> list[Subscriber]:
@@ -124,15 +139,39 @@ def mark_sent(tender_ids: list[str]) -> None:
     db.table("tenders").update({"sent_in_digest_at": now}).in_("id", tender_ids).execute()
 
 
-def run(dry_run: bool) -> None:
-    failed_sources = scrape_and_store()
-    _process_and_send(dry_run)
+def run(dry_run: bool, mode: str = "full") -> None:
+    """mode: full = scrapen + verwerken + verzenden; preview = scrapen + verwerken +
+    voorbeeld naar Filip; send = enkel verwerken wat er ligt + verzenden."""
+    if mode == "send" and os.environ.get("DIGEST_HOLD", "").strip().lower() == "true":
+        logger.warning("DIGEST_HOLD=true — digest niet verzonden")
+        return
+    failed_sources = [] if mode == "send" else scrape_and_store()
+    _process_and_send(dry_run, preview=(mode == "preview"))
     if failed_sources:
         # Pas na de digest falen, zodat de workflow-alert afgaat
         raise RuntimeError(f"Bron(nen) gefaald: {', '.join(failed_sources)}")
 
 
-def _process_and_send(dry_run: bool) -> None:
+def _send_preview(tenders: list[Tender], today) -> None:
+    """Mail het voorbeeld naar Filip, met de source_refs erbij om uit te sluiten."""
+    to = os.environ.get("PREVIEW_EMAIL", "").strip() or "hallo@kansenradar.be"
+    rows = "".join(
+        f"<li>{t.score} — {t.title[:90]} — <code>{t.source_ref}</code></li>" for t in tenders
+    )
+    banner = (
+        '<div style="font:14px/1.5 sans-serif;background:#fff6d6;padding:12px 16px;margin:0 0 12px">'
+        "<strong>Voorbeeld — nog niet verzonden.</strong> Zonder actie gaat dit maandag 07:00 uit "
+        "naar de abonnees. Uitsluiten: zet de code in de GitHub-variabele DIGEST_EXCLUDE. "
+        f"Alles tegenhouden: DIGEST_HOLD = true.<ol>{rows}</ol></div>"
+    )
+    html = build(tenders, today, unsubscribe_url="#")
+    html = re.sub(r"(<body[^>]*>)", lambda m: m.group(1) + banner, html, count=1)
+    if not send(to=to, subject=f"[Voorbeeld] Kansenradar — Digest {format_date_nl(today)}", html=html):
+        raise RuntimeError("Voorbeeld-mail versturen mislukt")
+    logger.info("Voorbeeld van %d tenders gemaild naar %s", len(tenders), to)
+
+
+def _process_and_send(dry_run: bool, preview: bool = False) -> None:
     cpv_filter.run()
     prescreen.run()
     summarizer.run()
@@ -143,6 +182,13 @@ def _process_and_send(dry_run: bool) -> None:
         return
 
     today = datetime.now(timezone.utc).date()
+
+    if preview:
+        if dry_run:
+            logger.info("Preview + dry-run: %d tenders, geen mail", len(tenders))
+        else:
+            _send_preview(tenders, today)
+        return
 
     if dry_run:
         html = build(tenders, today, unsubscribe_url="#")
@@ -181,11 +227,14 @@ def _process_and_send(dry_run: bool) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Kansenradar dagelijkse digest-pijplijn")
     parser.add_argument("--dry-run", action="store_true", help="Render naar out/digest_preview.html, verstuur niet")
+    parser.add_argument("--preview", action="store_true", help="Mail een voorbeeld naar Filip, verstuur niet naar abonnees")
+    parser.add_argument("--send", action="store_true", help="Verstuur wat er klaarstaat, zonder opnieuw te scrapen")
     args = parser.parse_args()
+    mode = "preview" if args.preview else "send" if args.send else "full"
 
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
     load_dotenv()
-    run(dry_run=args.dry_run)
+    run(dry_run=args.dry_run, mode=mode)
 
 
 if __name__ == "__main__":

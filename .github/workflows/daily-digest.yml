@@ -5,13 +5,19 @@ name: Daily digest
 # GitHub Actions cron kent geen tijdzones, dit is een bewuste keuze.
 on:
   schedule:
-    - cron: "0 6 * * 1"
+    - cron: "0 17 * * 0"   # zondag: voorbeeld mailen naar Filip
+    - cron: "0 6 * * 1"    # maandag: verzenden (tenzij DIGEST_HOLD=true)
   workflow_dispatch:
     inputs:
       dry_run:
         description: "Dry-run: scrapen en verwerken, niets versturen"
         type: boolean
         default: true
+      mode:
+        description: "preview = voorbeeld naar Filip, send = verzenden, full = alles"
+        type: choice
+        options: [preview, send, full]
+        default: preview
 
 jobs:
   send-digest:
@@ -40,7 +46,17 @@ jobs:
           EPROC_PR_TOKEN_URL: ${{ secrets.EPROC_PR_TOKEN_URL }}
           EPROC_PR_CLIENT_ID: ${{ secrets.EPROC_PR_CLIENT_ID }}
           EPROC_PR_CLIENT_SECRET: ${{ secrets.EPROC_PR_CLIENT_SECRET }}
-        run: uv run python -m mailer.run ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && '--dry-run' || '' }}
+          DIGEST_EXCLUDE: ${{ vars.DIGEST_EXCLUDE }}
+          DIGEST_HOLD: ${{ vars.DIGEST_HOLD }}
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            if [ "${{ github.event.schedule }}" = "0 17 * * 0" ]; then flags="--preview"; else flags="--send"; fi
+          else
+            flags="--${{ inputs.mode }}"
+            [ "${{ inputs.dry_run }}" = "true" ] && flags="$flags --dry-run"
+          fi
+          flags="${flags/--full/}"
+          uv run python -m mailer.run $flags
 
       - name: Alert on failure
         if: failure()
