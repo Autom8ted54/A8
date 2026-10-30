@@ -36,3 +36,24 @@ def test_excluded_refs_parses_and_ignores_blanks(monkeypatch):
 def test_excluded_refs_empty(monkeypatch):
     monkeypatch.delenv("DIGEST_EXCLUDE", raising=False)
     assert run._excluded_refs() == set()
+
+
+def _tender(id_, source, title, score=7):
+    from database.models import Tender
+
+    return Tender(
+        id=id_, source=source, source_ref=id_, title=title, authority=None, cpv_codes=[],
+        budget_text=None, deadline=None, url=None, country="BE", passed_cpv=True,
+        prescreen_relevant=True, category=None, summary=None, score=score,
+        processed_at=None, sent_in_digest_at=None,
+    )
+
+
+def test_dedupe_prefers_eprocurement_and_keeps_order():
+    ted_a = _tender("t1", "ted", "België – Reclamediensten – Campagne Verkeersquiz VSV", score=8)
+    ted_b = _tender("t2", "ted", "België – Reclamediensten – Campagne Verkeersquiz VSV", score=7)
+    other = _tender("o1", "e-procurement", "Website stad Nieuwpoort", score=7)
+    eproc = _tender("e1", "e-procurement", "Campagne Verkeersquiz VSV", score=6)
+    kept, dupes = run.dedupe_by_title([ted_a, ted_b, other, eproc])
+    assert [t.id for t in kept] == ["o1", "e1"]
+    assert {t.id for t in dupes} == {"t1", "t2"}

@@ -51,10 +51,13 @@ SOURCE_LABELS = {"e-procurement": "e-Procurement BE", "ted": "TED EU"}
 
 
 def clean_title(t: Tender) -> str:
+    """Nederlandse titel als die er is, anders de opgeschoonde originele."""
+    return t.title_nl or clean_title_original(t)
+
+
+def clean_title_original(t: Tender) -> str:
     """TED-titels beginnen met 'Land – CPV-omschrijving – '; dat herhaalt enkel
     wat de categorie en aanbesteder al zeggen."""
-    if t.title_nl:
-        return t.title_nl
     parts = t.title.split(" – ", 2)
     if t.source == "ted" and len(parts) == 3 and parts[2].strip():
         return parts[2].strip()

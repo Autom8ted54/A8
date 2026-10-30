@@ -28,7 +28,7 @@ from dotenv import load_dotenv
 
 from database.client import get_client
 from database.models import RawTender, Subscriber, Tender
-from mailer.digest_builder import build, clean_title, format_date_nl
+from mailer.digest_builder import build, clean_title, clean_title_original, format_date_nl
 from mailer.sender import send
 from processor import cpv_filter, prescreen, summarizer
 from scraper.e_procurement import EProcurementSource, ted_number_key
@@ -100,27 +100,52 @@ def scrape_and_store() -> list[str]:
     return failed
 
 
-def select_digest_candidates() -> list[Tender]:
+def select_digest_candidates() -> tuple[list[Tender], list[str]]:
+    """Top-tenders voor de digest + ids van hun dubbels (mee als verstuurd te markeren)."""
     db = get_client()
     min_score = _env_int("MIN_RELEVANCE_SCORE", 6)
     max_count = _env_int("MAX_TENDERS_PER_DIGEST", 5)
-    today_iso = datetime.now(timezone.utc).date().isoformat()
-
+    today = datetime.now(timezone.utc).date()
     excluded = _excluded_refs()
 
-    # Ruimer ophalen en in Python filteren, zodat uitgesloten opdrachten opschuiven
+    # Alle kandidaten ophalen (enkele tientallen). Dedup vóór de deadline-filter:
+    # TED geeft soms geen deadline mee terwijl de e-Procurement-versie al vervallen is.
     result = (
         db.table("tenders")
         .select("*")
         .gte("score", min_score)
         .is_("sent_in_digest_at", "null")
-        .or_(f"deadline.is.null,deadline.gte.{today_iso}")
         .order("score", desc=True)
-        .limit(max_count + len(excluded))
         .execute()
     )
     tenders = [Tender.from_row(row) for row in (result.data or [])]
-    return [t for t in tenders if t.source_ref not in excluded][:max_count]
+    kept, duplicates = dedupe_by_title([t for t in tenders if t.source_ref not in excluded])
+    open_ = [t for t in kept if t.deadline is None or t.deadline >= today]
+    top = open_[:max_count]
+    top_keys = {_title_key(t) for t in top}
+    return top, [d.id for d in duplicates if _title_key(d) in top_keys]
+
+
+def _title_key(t: Tender) -> str:
+    return re.sub(r"[^a-z0-9]", "", clean_title_original(t).lower())[:80]
+
+
+def dedupe_by_title(tenders: list[Tender]) -> tuple[list[Tender], list[Tender]]:
+    """Dezelfde opdracht komt via e-Procurement én TED (soms meermaals) binnen,
+    zonder gedeeld nummer. Groepeer op titel; e-Procurement wint, anders de
+    hoogste score. Volgorde (score desc) blijft behouden."""
+    best: dict[str, Tender] = {}
+    for t in tenders:
+        key = _title_key(t)
+        cur = best.get(key)
+        if cur is None or (t.source == "e-procurement" and cur.source != "e-procurement"):
+            best[key] = t
+    winners = {id(t) for t in best.values()}
+    kept = [t for t in tenders if id(t) in winners]
+    duplicates = [t for t in tenders if id(t) not in winners]
+    if duplicates:
+        logger.info("Dedup op titel: %d dubbele opdracht(en) weggelaten", len(duplicates))
+    return kept, duplicates
 
 
 def _excluded_refs() -> set[str]:
@@ -187,7 +212,7 @@ def _process_and_send(dry_run: bool, preview: bool = False) -> None:
     prescreen.run()
     summarizer.run()
 
-    tenders = select_digest_candidates()
+    tenders, duplicate_ids = select_digest_candidates()
     if not tenders:
         logger.info("Geen tenders boven de score-drempel — geen digest verzonden")
         return
@@ -231,7 +256,7 @@ def _process_and_send(dry_run: bool, preview: bool = False) -> None:
         )
         return
 
-    mark_sent([t.id for t in tenders])
+    mark_sent([t.id for t in tenders] + duplicate_ids)
     logger.info("Digest verzonden naar %d/%d subscribers, %d tenders gemarkeerd als verstuurd", sent_count, len(subscribers), len(tenders))
 
 
