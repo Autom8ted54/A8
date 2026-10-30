@@ -1,12 +1,17 @@
 name: Daily digest
 
-# 06:00 UTC = 07:00 lokaal (winter, CET) / 08:00 lokaal (zomer, CEST).
+# Wekelijks op maandag. 06:00 UTC = 07:00 lokaal (winter, CET) / 08:00 lokaal (zomer, CEST).
 # CLAUDE.md's DIGEST_SEND_TIME=07:00 wordt dus in de zomer iets later bereikt;
 # GitHub Actions cron kent geen tijdzones, dit is een bewuste keuze.
 on:
   schedule:
-    - cron: "0 6 * * 1-5"
-  workflow_dispatch: {}
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry-run: scrapen en verwerken, niets versturen"
+        type: boolean
+        default: true
 
 jobs:
   send-digest:
@@ -35,7 +40,7 @@ jobs:
           EPROC_PR_TOKEN_URL: ${{ secrets.EPROC_PR_TOKEN_URL }}
           EPROC_PR_CLIENT_ID: ${{ secrets.EPROC_PR_CLIENT_ID }}
           EPROC_PR_CLIENT_SECRET: ${{ secrets.EPROC_PR_CLIENT_SECRET }}
-        run: uv run python -m mailer.run
+        run: uv run python -m mailer.run ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && '--dry-run' || '' }}
 
       - name: Alert on failure
         if: failure()
