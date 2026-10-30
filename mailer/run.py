@@ -20,6 +20,7 @@ import logging
 import os
 import re
 import time
+from html import escape as html_escape
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -27,7 +28,7 @@ from dotenv import load_dotenv
 
 from database.client import get_client
 from database.models import RawTender, Subscriber, Tender
-from mailer.digest_builder import build, format_date_nl
+from mailer.digest_builder import build, clean_title, format_date_nl
 from mailer.sender import send
 from processor import cpv_filter, prescreen, summarizer
 from scraper.e_procurement import EProcurementSource, ted_number_key
@@ -156,13 +157,23 @@ def _send_preview(tenders: list[Tender], today) -> None:
     """Mail het voorbeeld naar Filip, met de source_refs erbij om uit te sluiten."""
     to = os.environ.get("PREVIEW_EMAIL", "").strip() or "hallo@kansenradar.be"
     rows = "".join(
-        f"<li>{t.score} — {t.title[:90]} — <code>{t.source_ref}</code></li>" for t in tenders
+        '<tr><td style="padding:6px 0;border-top:1px solid #E9DFB8;font-size:13px;line-height:1.4;color:#3A3320;">'
+        f"<strong>{t.score}/10</strong> &nbsp;{html_escape(clean_title(t))}<br>"
+        f'<span style="font-family:Menlo,Consolas,monospace;font-size:11px;color:#7A6E45;">{html_escape(t.source_ref)}</span>'
+        "</td></tr>"
+        for t in tenders
     )
     banner = (
-        '<div style="font:14px/1.5 sans-serif;background:#fff6d6;padding:12px 16px;margin:0 0 12px">'
-        "<strong>Voorbeeld — nog niet verzonden.</strong> Zonder actie gaat dit maandag 07:00 uit "
-        "naar de abonnees. Uitsluiten: zet de code in de GitHub-variabele DIGEST_EXCLUDE. "
-        f"Alles tegenhouden: DIGEST_HOLD = true.<ol>{rows}</ol></div>"
+        '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#F0F2F5;">'
+        '<tr><td align="center" style="padding:16px 16px 0;">'
+        '<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">'
+        '<tr><td style="background-color:#FFF6D6;border-radius:12px;padding:16px 20px;'
+        "font-family:'Instrument Sans',-apple-system,'Segoe UI',sans-serif;font-size:13px;line-height:1.5;color:#3A3320;\">"
+        "<strong>Voorbeeld, nog niet verzonden.</strong> Zonder actie gaat deze digest maandag 07:00 uit.<br>"
+        "Opdracht uitsluiten: zet de code in GitHub-variabele <code>DIGEST_EXCLUDE</code>. "
+        "Alles tegenhouden: <code>DIGEST_HOLD</code> = <code>true</code>."
+        f'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:10px;">{rows}</table>'
+        "</td></tr></table></td></tr></table>"
     )
     html = build(tenders, today, unsubscribe_url="#")
     html = re.sub(r"(<body[^>]*>)", lambda m: m.group(1) + banner, html, count=1)
