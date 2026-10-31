@@ -148,3 +148,12 @@ def test_extract_description_reads_eprocurement_payload():
     }
     assert extract_description(raw) == "Dossier-omschrijving\n\nPerceel 2"
     assert extract_description({"dossier": {}}) == ""
+
+
+def test_capped_score_foreign_ted_buyer():
+    from processor.summarizer import capped_score
+
+    assert capped_score({"score": 8, "buyer_belgian": False}, "ted") == 6
+    assert capped_score({"score": 5, "buyer_belgian": False}, "ted") == 5
+    assert capped_score({"score": 8, "buyer_belgian": True}, "ted") == 8
+    assert capped_score({"score": 8, "buyer_belgian": False}, "e-procurement") == 8

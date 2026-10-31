@@ -16,6 +16,10 @@ logger = logging.getLogger(__name__)
 
 MODEL = "claude-sonnet-5"
 
+# Buitenlandse aanbesteders (bv. pan-Europese campagnes) zijn zelden haalbaar
+# voor een Vlaams bureau: ze komen enkel in de digest als er niets beters is.
+FOREIGN_BUYER_MAX_SCORE = 6
+
 CATEGORIES = ["Communicatie", "Marketing", "Events", "PR", "Webdesign"]
 
 SUMMARIZE_TOOL = {
@@ -44,6 +48,10 @@ SUMMARIZE_TOOL = {
                     "publicaties de taal van de aanbesteder (Waalse overheid: fr, Vlaamse: nl)."
                 ),
             },
+            "buyer_belgian": {
+                "type": "boolean",
+                "description": "True als de aanbestedende overheid of organisatie Belgisch is.",
+            },
             "summary_nl": {
                 "type": "string",
                 "description": (
@@ -69,7 +77,7 @@ SUMMARIZE_TOOL = {
                 ),
             },
         },
-        "required": ["category", "language", "summary_nl", "score"],
+        "required": ["category", "language", "buyer_belgian", "summary_nl", "score"],
     },
 }
 
@@ -95,6 +103,13 @@ def summarize(client: Anthropic, title: str, authority: str | None, description:
         if block.type == "tool_use":
             return block.input
     raise RuntimeError("Sonnet gaf geen tool_use-antwoord terug")
+
+
+def capped_score(data: dict, source: str | None) -> int:
+    """e-Procurement publiceert enkel Belgische aanbesteders; bij TED beslist Sonnet."""
+    if source != "e-procurement" and data.get("buyer_belgian") is False:
+        return min(data["score"], FOREIGN_BUYER_MAX_SCORE)
+    return data["score"]
 
 
 def _eproc_text(values: list | None) -> str:
@@ -136,7 +151,7 @@ def run() -> int:
 
     result = (
         db.table("tenders")
-        .select("id, title, authority, raw")
+        .select("id, source, title, authority, raw")
         .eq("prescreen_relevant", True)
         .is_("processed_at", "null")
         .execute()
@@ -148,6 +163,7 @@ def run() -> int:
         try:
             description = extract_description(row.get("raw") or {})
             data = summarize(ai, row["title"], row.get("authority"), description)
+            data["score"] = capped_score(data, row.get("source"))
         except Exception:
             # Eén mislukte tender mag de rest van de batch niet blokkeren;
             # processed_at blijft NULL, dus morgen opnieuw geprobeerd.
